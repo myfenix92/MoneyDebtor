@@ -3,10 +3,12 @@ package com.hfad.moneydebtor;
 public class UsersDataset {
     private int id_user;
     private String name_user;
+    private double all_summa;
 
-    public UsersDataset(int idUser, String nameUser) {
+    public UsersDataset(int idUser, String nameUser, double allSumma) {
         id_user = idUser;
         name_user = nameUser;
+        all_summa = allSumma;
     }
 
     public String getName_user() {
@@ -23,5 +25,13 @@ public class UsersDataset {
 
     public void setId_user(int id_user) {
         this.id_user = id_user;
+    }
+
+    public double getAll_summa() {
+        return all_summa;
+    }
+
+    public void setAll_summa(double all_summa) {
+        this.all_summa = all_summa;
     }
 }
