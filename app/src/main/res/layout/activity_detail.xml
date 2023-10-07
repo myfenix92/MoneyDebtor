@@ -6,12 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/lightred"
-        app:title="@string/app_name"/>
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
