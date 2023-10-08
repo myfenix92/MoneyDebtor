@@ -20,10 +20,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private List<UsersDataset> dataList;
     private Listener listener;
 
-    public UsersAdapter(Context context, List<UsersDataset> dataList, Listener listener) {
+    public UsersAdapter(Context context, List<UsersDataset> dataList) {
         this.context = context;
         this.dataList = dataList;
-        this.listener = listener;
+     //   this.listener = listener;
     }
 
     @NonNull
@@ -39,7 +39,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         UsersDataset usersDataset = dataList.get(position);
         CardView cardView = holder.all_users_cardView;
         holder.name_user.setText(usersDataset.getName_user());
-        holder.summa.setText((int) usersDataset.getAll_summa());
+        holder.summa.setText(String.valueOf(usersDataset.getAll_summa()));
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +70,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             super(itemView);
             all_users_cardView = itemView.findViewById(R.id.card_view_all_users);
             name_user = itemView.findViewById(R.id.user_name);
-            summa = itemView.findViewById(R.id.summa);
+            summa = itemView.findViewById(R.id.user_summa);
         }
     }
 }

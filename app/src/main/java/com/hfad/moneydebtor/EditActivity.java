@@ -17,11 +17,12 @@ import java.util.Locale;
 
 public class EditActivity extends AppCompatActivity {
     final Calendar myCalendar = Calendar.getInstance();
-    private EditText dateTake;
-    private EditText dateGive;
-    private EditText nameUser;
-    private EditText summa;
-    private ToggleButton switchDebtor;
+    EditText dateTake;
+    EditText dateGive;
+    EditText nameUser;
+    EditText summa;
+    ToggleButton switchDebtor;
+    MoneyDebtorDBHelper db;
     String idIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +82,22 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void addNewRecord(View view) {
-        Toast.makeText(this, dateTake.getText(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, dateGive.getText(), Toast.LENGTH_SHORT).show();
+        nameUser = findViewById(R.id.edit_name);
+        String nameText = nameUser.getText().toString();
+//        dateTake = findViewById(R.id.edit_date_take);
+        summa = findViewById(R.id.edit_summa);
+        double summaText = Double.parseDouble(summa.getText().toString());
+//        dateGive = findViewById(R.id.edit_date_give);
+          db = new MoneyDebtorDBHelper(this);
+        boolean idNewUser = db.insertUsers(nameText, summaText);
+//        db.insertUsersDetail((int) idNewUser,
+//                Integer.parseInt(dateTake.getText().toString()),
+//                Double.parseDouble(summa.getText().toString()),
+//                Integer.parseInt(dateGive.getText().toString()));
+        Toast.makeText(this, nameText, Toast.LENGTH_SHORT).show();
+ //       db.close();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void cancelRecord(View view) {

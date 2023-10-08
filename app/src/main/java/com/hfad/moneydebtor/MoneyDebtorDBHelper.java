@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "moneydebtor";
+    private static final String DB_NAME = "moneydebtorDB";
     private static final int DB_VERSION = 1;
 
     public MoneyDebtorDBHelper(Context context) {
@@ -26,8 +26,9 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
-            db.execSQL("CREATE TABLE USERS(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "NAME TEXT);");
+            db.execSQL("CREATE TABLE USERS(_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                    "NAME TEXT," +
+                    "ALL_SUMMA REAL DEFAULT 0);");
             db.execSQL("CREATE TABLE DETAIL_USERS(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "ID_USER INTEGER NOT NULL," +
                     "DATE_TAKE INTEGER DEFAULT CURRENT_DATE," +
@@ -37,13 +38,15 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
                     "    FOREIGN KEY (ID_USER) REFERENCES USERS (_id) ON DELETE CASCADE);");
         }
         if (oldVersion == 2) {
+            db.execSQL("ALTER TABLE USERS ADD ALL_SUMMA REAL DEFAULT 0");
         }
     }
 
-    public Boolean insertUsers(String user_name, int date_take, double summa, int date_give) {
+    public Boolean insertUsers(String user_name, double all_summa) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersValues = new ContentValues();
         usersValues.put("NAME", user_name);
+        usersValues.put("ALL_SUMMA", all_summa);
         long res = db.insert("USERS", null, usersValues);
         if (res == -1) {
             return false;
@@ -67,11 +70,12 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateUsers(int _id, String name_user)
+    public Boolean updateUsers(int _id, String name_user, double all_summa)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersValues = new ContentValues();
         usersValues.put("NAME", name_user);
+        usersValues.put("ALL_SUMMA", all_summa);
         Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
