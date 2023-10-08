@@ -3,11 +3,13 @@ package com.hfad.moneydebtor;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,8 +17,12 @@ import java.util.Locale;
 
 public class EditActivity extends AppCompatActivity {
     final Calendar myCalendar = Calendar.getInstance();
-    EditText dateTake;
-    EditText dateGive;
+    private EditText dateTake;
+    private EditText dateGive;
+    private EditText nameUser;
+    private EditText summa;
+    private ToggleButton switchDebtor;
+    String idIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,5 +83,33 @@ public class EditActivity extends AppCompatActivity {
     public void addNewRecord(View view) {
         Toast.makeText(this, dateTake.getText(), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, dateGive.getText(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void cancelRecord(View view) {
+        nameUser = findViewById(R.id.edit_name);
+        summa = findViewById(R.id.edit_summa);
+        switchDebtor = findViewById(R.id.switch_btn);
+        nameUser.setText("");
+        dateTake.setText("");
+        dateGive.setText("");
+        summa.setText("");
+        switchDebtor.setChecked(true);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("id_intent");
+            switch (value) {
+                case "MainActivity": {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+                case "DetailActivity": {
+                    Intent intent = new Intent(this, DetailActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+            }
+        }
+
     }
 }

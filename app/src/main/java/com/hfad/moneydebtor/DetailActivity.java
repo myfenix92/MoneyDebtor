@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class DetailActivity extends AppCompatActivity {
-
+    private static final String ID_ACTIVITY = "DetailActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +16,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra("id_intent", ID_ACTIVITY);
         startActivity(intent);
     }
 }

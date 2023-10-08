@@ -8,6 +8,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String MAIN_ACTIVITY = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addNewUser(View view) {
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra("id_intent", MAIN_ACTIVITY);
         startActivity(intent);
     }
 }
