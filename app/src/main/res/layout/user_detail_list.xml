@@ -18,19 +18,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/id_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="1"
-                android:padding="5dp"
-                android:textSize="18sp" />
-            <TextView
                 android:id="@+id/date_take"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="23.01.2025"
                 android:padding="5dp"
                 android:textSize="18sp" />
 
@@ -38,7 +29,6 @@
                 android:id="@+id/summa"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="1500"
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:textSize="18sp" />
@@ -46,7 +36,6 @@
                 android:id="@+id/date_give"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="25.02.2025"
                 android:padding="5dp"
                 android:textSize="18sp" />
 

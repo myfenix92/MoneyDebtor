@@ -20,10 +20,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private List<UsersDataset> dataList;
     private Listener listener;
 
-    public UsersAdapter(Context context, List<UsersDataset> dataList) {
+    public UsersAdapter(Context context, List<UsersDataset> dataList, Listener listener) {
         this.context = context;
         this.dataList = dataList;
-     //   this.listener = listener;
+        this.listener = listener;
     }
 
     @NonNull

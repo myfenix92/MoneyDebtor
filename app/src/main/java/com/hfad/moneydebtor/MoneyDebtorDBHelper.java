@@ -38,24 +38,23 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
                     "    FOREIGN KEY (ID_USER) REFERENCES USERS (_id) ON DELETE CASCADE);");
         }
         if (oldVersion == 2) {
-            db.execSQL("ALTER TABLE USERS ADD ALL_SUMMA REAL DEFAULT 0");
         }
     }
 
-    public Boolean insertUsers(String user_name, double all_summa) {
+    public long insertUsers(String user_name, double all_summa) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersValues = new ContentValues();
         usersValues.put("NAME", user_name);
         usersValues.put("ALL_SUMMA", all_summa);
         long res = db.insert("USERS", null, usersValues);
         if (res == -1) {
-            return false;
+            return 0;
         } else {
-            return true;
+            return res;
         }
     }
 
-    public Boolean insertUsersDetail(int id_user, int date_take, double summa, int date_give) {
+    public Boolean insertUsersDetail(long id_user, long date_take, double summa, long date_give) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersDetailValues = new ContentValues();
         usersDetailValues.put("ID_USER", id_user);
@@ -91,7 +90,7 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateUsersDetail(int _id, int id_user, int date_take, double summa, int date_give)
+    public Boolean updateUsersDetail(int _id, int id_user, long date_take, double summa, long date_give)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersDetailValues = new ContentValues();
@@ -138,9 +137,10 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         return  cursor;
     }
 
-    public Cursor getDataDetailUsers() {
+    public Cursor getDataDetailUsers(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE ID_USER = ?",
+                new String[]{String.valueOf(id)});
         return  cursor;
     }
 }

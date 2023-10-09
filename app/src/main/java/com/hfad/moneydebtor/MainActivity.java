@@ -32,11 +32,20 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        UsersAdapter.Listener listener = new UsersAdapter.Listener() {
+            @Override
+            public void onViewClick(UsersDataset data, int position) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_ID, usersDatasetList.get(position).getId_user());
+                startActivity(intent);
+            }
+        };
+
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         recyclerViewUsers.setLayoutManager(linearLayoutManager);
-        usersAdapter = new UsersAdapter(this, usersDatasetList);
+        usersAdapter = new UsersAdapter(this, usersDatasetList, listener);
         db = new MoneyDebtorDBHelper(this);
         recyclerViewUsers.setAdapter(usersAdapter);
         displayData();

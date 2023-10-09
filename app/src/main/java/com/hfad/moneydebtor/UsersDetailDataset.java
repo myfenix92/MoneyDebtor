@@ -1,13 +1,17 @@
 package com.hfad.moneydebtor;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class UsersDetailDataset {
     private int id_record;
     private int id_user;
-    private int date_take;
+    private long date_take;
     private double summa;
-    private int date_give;
+    private long date_give;
 
-    public UsersDetailDataset(int idRecord, int idUser, int dateTake, double summa, int dateGive) {
+    public UsersDetailDataset(int idRecord, int idUser, long dateTake, double summa, long dateGive) {
         id_record = idRecord;
         id_user = idUser;
         date_take = dateTake;
@@ -31,11 +35,17 @@ public class UsersDetailDataset {
         this.id_user = id_user;
     }
 
-    public int getDate_take() {
-        return date_take;
+    public String getDate_take() {
+        Calendar myCalendar = Calendar.getInstance();
+        String myFormat="dd.MM.yyyy";
+        String dateText;
+        myCalendar.setTimeInMillis(date_take);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+        dateText = dateFormat.format(myCalendar.getTime());
+        return dateText;
     }
 
-    public void setDate_take(int date_take) {
+    public void setDate_take(long date_take) {
         this.date_take = date_take;
     }
 
@@ -47,11 +57,17 @@ public class UsersDetailDataset {
         this.summa = summa;
     }
 
-    public int getDate_give() {
-        return date_give;
+    public String getDate_give() {
+        Calendar myCalendar = Calendar.getInstance();
+        String myFormat="dd.MM.yyyy";
+        String dateText;
+        myCalendar.setTimeInMillis(date_give);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+        dateText = dateFormat.format(myCalendar.getTime());
+        return dateText;
     }
 
-    public void setDate_give(int date_give) {
+    public void setDate_give(long date_give) {
         this.date_give = date_give;
     }
 }

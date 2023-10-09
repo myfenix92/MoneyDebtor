@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class EditActivity extends AppCompatActivity {
@@ -24,6 +25,8 @@ public class EditActivity extends AppCompatActivity {
     ToggleButton switchDebtor;
     MoneyDebtorDBHelper db;
     String idIntent;
+    long dateTakeNumber;
+    long dateGiveNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,7 @@ public class EditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
                 setDateTake();
+                dateTakeNumber = myCalendar.getTime().getTime();
             }
         };
 
@@ -47,6 +51,7 @@ public class EditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
                 setDateGive();
+                dateGiveNumber = myCalendar.getTime().getTime();
             }
         };
 
@@ -65,7 +70,7 @@ public class EditActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
+        db = new MoneyDebtorDBHelper(this);
 
     }
 
@@ -84,18 +89,22 @@ public class EditActivity extends AppCompatActivity {
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
         String nameText = nameUser.getText().toString();
-//        dateTake = findViewById(R.id.edit_date_take);
         summa = findViewById(R.id.edit_summa);
         double summaText = Double.parseDouble(summa.getText().toString());
-//        dateGive = findViewById(R.id.edit_date_give);
-          db = new MoneyDebtorDBHelper(this);
-        boolean idNewUser = db.insertUsers(nameText, summaText);
-//        db.insertUsersDetail((int) idNewUser,
-//                Integer.parseInt(dateTake.getText().toString()),
-//                Double.parseDouble(summa.getText().toString()),
-//                Integer.parseInt(dateGive.getText().toString()));
-        Toast.makeText(this, nameText, Toast.LENGTH_SHORT).show();
- //       db.close();
+
+        long idNewUser = db.insertUsers(nameText, summaText);
+        boolean insertDetail = db.insertUsersDetail(idNewUser,
+                dateTakeNumber,
+                Double.parseDouble(summa.getText().toString()),
+                dateGiveNumber);
+        if (insertDetail) {
+            Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
