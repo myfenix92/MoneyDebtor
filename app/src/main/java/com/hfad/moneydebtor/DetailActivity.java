@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,8 +23,14 @@ public class DetailActivity extends AppCompatActivity {
     UsersDetailAdapter usersDetailAdapter;
     Cursor cursor;
     public static final String USER_ID = "user_id";
+    public static final String USER_NAME = "user_name";
+    public static final String USER_ALL_SUMMA = "user_all_summa";
     private static final String ID_ACTIVITY = "DetailActivity";
     int userId;
+    String userName;
+    double userAllSumma;
+    TextView nameUser;
+    TextView allSummaUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +40,11 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         userId = (int) getIntent().getExtras().get(USER_ID);
-        Toast.makeText(this, String.valueOf(userId), Toast.LENGTH_SHORT).show();
+        userName = (String) getIntent().getExtras().get(USER_NAME);
+        userAllSumma = (double) getIntent().getExtras().get(USER_ALL_SUMMA);
+
         UsersDetailAdapter.Listener listener = new UsersDetailAdapter.Listener() {
             @Override
             public void onEditClick(UsersDetailDataset data, int position) {
@@ -49,12 +59,16 @@ public class DetailActivity extends AppCompatActivity {
                 usersDetailDatasetList, listener);
         db = new MoneyDebtorDBHelper(this);
         recyclerViewUsersDetail.setAdapter(usersDetailAdapter);
-        displayData();
+        nameUser = findViewById(R.id.user_name_detail);
+        allSummaUser = findViewById(R.id.user_all_summa);
+        nameUser.setText(userName);
+        allSummaUser.setText(String.valueOf(userAllSumma));
+
+        displayDataDetail();
 
     }
 
-    private List<UsersDetailDataset> displayData() {
-
+    private List<UsersDetailDataset> displayDataDetail() {
         cursor = db.getDataDetailUsers(userId);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
@@ -78,6 +92,9 @@ public class DetailActivity extends AppCompatActivity {
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("id_intent", ID_ACTIVITY);
+        intent.putExtra(DetailActivity.USER_ID, userId);
+        intent.putExtra(DetailActivity.USER_NAME, userName);
+        intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
         startActivity(intent);
     }
 

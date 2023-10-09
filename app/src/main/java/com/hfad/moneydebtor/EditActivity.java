@@ -1,6 +1,8 @@
 package com.hfad.moneydebtor;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class EditActivity extends AppCompatActivity {
     final Calendar myCalendar = Calendar.getInstance();
@@ -24,15 +27,28 @@ public class EditActivity extends AppCompatActivity {
     EditText summa;
     ToggleButton switchDebtor;
     MoneyDebtorDBHelper db;
-    String idIntent;
+
     long dateTakeNumber;
     long dateGiveNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         dateTake = (EditText) findViewById(R.id.edit_date_take);
         dateGive = (EditText) findViewById(R.id.edit_date_give);
+        String value = getIntent().getStringExtra("id_intent");
+        String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
+        nameUser = findViewById(R.id.edit_name);
+        if (Objects.equals(value, "DetailActivity")) {
+            Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+            nameUser.setText(nameUserText);
+            nameUser.setEnabled(false);
+        }
+
         DatePickerDialog.OnDateSetListener dateTakeDialog = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -91,22 +107,46 @@ public class EditActivity extends AppCompatActivity {
         String nameText = nameUser.getText().toString();
         summa = findViewById(R.id.edit_summa);
         double summaText = Double.parseDouble(summa.getText().toString());
+        String value = getIntent().getStringExtra("id_intent");
+        switch (value) {
+            case "MainActivity": {
+                long idNewUser = db.insertUsers(nameText, summaText);
+                boolean insertDetail = db.insertUsersDetail(idNewUser,
+                        dateTakeNumber,
+                        Double.parseDouble(summa.getText().toString()),
+                        dateGiveNumber);
+                if (insertDetail) {
+                    Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
 
-        long idNewUser = db.insertUsers(nameText, summaText);
-        boolean insertDetail = db.insertUsersDetail(idNewUser,
-                dateTakeNumber,
-                Double.parseDouble(summa.getText().toString()),
-                dateGiveNumber);
-        if (insertDetail) {
-            Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+                }
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case "DetailActivity": {
+                int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+                boolean insertDetail = db.insertUsersDetail(idUser,
+                        dateTakeNumber,
+                        Double.parseDouble(summa.getText().toString()),
+                        dateGiveNumber);
+                if (insertDetail) {
+                    Toast.makeText(this, "insert other detail", Toast.LENGTH_SHORT).show();
 
-        } else {
-            Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+                }
+                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_ID, idUser);
+                intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, allSummaUser);
+                startActivity(intent);
+                break;
+            }
         }
-
-        db.close();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     public void cancelRecord(View view) {
@@ -118,9 +158,12 @@ public class EditActivity extends AppCompatActivity {
         dateGive.setText("");
         summa.setText("");
         switchDebtor.setChecked(true);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String value = extras.getString("id_intent");
+     //   Bundle extras = getIntent().getExtras();
+     //   if (extras != null) {
+            String value = getIntent().getStringExtra("id_intent");
+            int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+            String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+            double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
             switch (value) {
                 case "MainActivity": {
                     Intent intent = new Intent(this, MainActivity.class);
@@ -129,11 +172,20 @@ public class EditActivity extends AppCompatActivity {
                 }
                 case "DetailActivity": {
                     Intent intent = new Intent(this, DetailActivity.class);
+                    intent.putExtra(DetailActivity.USER_ID, idUser);
+                    intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                    intent.putExtra(DetailActivity.USER_ALL_SUMMA, allSummaUser);
                     startActivity(intent);
                     break;
                 }
             }
-        }
+    //    }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }

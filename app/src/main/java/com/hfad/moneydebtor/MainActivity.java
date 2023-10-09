@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     UsersAdapter usersAdapter;
     Cursor cursor;
 
-    private final String MAIN_ACTIVITY = "MainActivity";
+    private final String ID_ACTIVITY = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             public void onViewClick(UsersDataset data, int position) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra(DetailActivity.USER_ID, usersDatasetList.get(position).getId_user());
+                intent.putExtra(DetailActivity.USER_NAME, usersDatasetList.get(position).getName_user());
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, usersDatasetList.get(position).getAll_summa());
                 startActivity(intent);
             }
         };
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("id_intent", MAIN_ACTIVITY);
+        intent.putExtra("id_intent", ID_ACTIVITY);
         startActivity(intent);
     }
 
