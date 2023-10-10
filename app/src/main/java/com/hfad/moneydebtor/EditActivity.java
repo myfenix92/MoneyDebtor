@@ -8,8 +8,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -38,8 +40,14 @@ public class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         dateTake = (EditText) findViewById(R.id.edit_date_take);
         dateGive = (EditText) findViewById(R.id.edit_date_give);
+        switchDebtor = findViewById(R.id.switch_btn);
+        TextView textDateGive = findViewById(R.id.dateGiveText);
+        TextView textDateTake = findViewById(R.id.dateTakeText);
+        setDate(dateTake);
+        dateTakeNumber = myCalendar.getTime().getTime();
         String value = getIntent().getStringExtra("id_intent");
         String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
         nameUser = findViewById(R.id.edit_name);
@@ -55,7 +63,7 @@ public class EditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                setDateTake();
+                setDate(dateTake);
                 dateTakeNumber = myCalendar.getTime().getTime();
             }
         };
@@ -66,8 +74,9 @@ public class EditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH,month);
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
-                setDateGive();
+                setDate(dateGive);
                 dateGiveNumber = myCalendar.getTime().getTime();
+
             }
         };
 
@@ -86,20 +95,28 @@ public class EditActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        switchDebtor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    textDateTake.setText("Когда отдали:");
+                    textDateGive.setVisibility(View.INVISIBLE);
+                    dateGive.setVisibility(View.INVISIBLE);
+                } else {
+                    textDateTake.setText("Когда взяли:");
+                    textDateGive.setVisibility(View.VISIBLE);
+                    dateGive.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         db = new MoneyDebtorDBHelper(this);
 
     }
 
-    private void setDateTake(){
+    private void setDate(EditText dateText){
         String myFormat="dd.MM.yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
-        dateTake.setText(dateFormat.format(myCalendar.getTime()));
-    }
-
-    private void setDateGive(){
-        String myFormat="dd.MM.yyyy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
-        dateGive.setText(dateFormat.format(myCalendar.getTime()));
+        dateText.setText(dateFormat.format(myCalendar.getTime()));
     }
 
     public void addNewRecord(View view) {
@@ -108,12 +125,16 @@ public class EditActivity extends AppCompatActivity {
         summa = findViewById(R.id.edit_summa);
         double summaText = Double.parseDouble(summa.getText().toString());
         String value = getIntent().getStringExtra("id_intent");
+        switchDebtor = findViewById(R.id.switch_btn);
+        if (!switchDebtor.isChecked()) {
+            summaText *= -1;
+        }
         switch (value) {
             case "MainActivity": {
                 long idNewUser = db.insertUsers(nameText, summaText);
                 boolean insertDetail = db.insertUsersDetail(idNewUser,
                         dateTakeNumber,
-                        Double.parseDouble(summa.getText().toString()),
+                        summaText,
                         dateGiveNumber);
                 if (insertDetail) {
                     Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
@@ -129,7 +150,7 @@ public class EditActivity extends AppCompatActivity {
                 int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
                 boolean insertDetail = db.insertUsersDetail(idUser,
                         dateTakeNumber,
-                        Double.parseDouble(summa.getText().toString()),
+                        summaText,
                         dateGiveNumber);
                 if (insertDetail) {
                     Toast.makeText(this, "insert other detail", Toast.LENGTH_SHORT).show();

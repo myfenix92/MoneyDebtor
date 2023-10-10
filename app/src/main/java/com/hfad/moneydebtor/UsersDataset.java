@@ -28,6 +28,9 @@ public class UsersDataset {
     }
 
     public double getAll_summa() {
+        if (all_summa < 0) {
+            return all_summa * -1;
+        }
         return all_summa;
     }
 

@@ -2,6 +2,7 @@ package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);

@@ -3,6 +3,7 @@ package com.hfad.moneydebtor;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,6 +70,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private List<UsersDetailDataset> displayDataDetail() {
+        TextView summa = findViewById(R.id.summa);
         cursor = db.getDataDetailUsers(userId);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
@@ -81,8 +83,9 @@ public class DetailActivity extends AppCompatActivity {
                                 cursor.getInt(0),
                                 cursor.getInt(1),
                                 cursor.getLong(2),
-                                cursor.getDouble(3),
-                                cursor.getLong(4)
+                                cursor.getDouble(3), //< 0 ? cursor.getDouble(3) * (-1) : cursor.getDouble(3),
+                                cursor.getLong(4),
+                                cursor.getDouble(3) > 0
                         ));
             }
         }

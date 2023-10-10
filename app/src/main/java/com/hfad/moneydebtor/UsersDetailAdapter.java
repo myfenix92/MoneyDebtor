@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -40,7 +42,11 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
         holder.dateTake.setText(String.valueOf(usersDetailDataset.getDate_take()));
         holder.summa.setText(String.valueOf(usersDetailDataset.getSumma()));
         holder.dateGive.setText(String.valueOf(usersDetailDataset.getDate_give()));
-
+        if (usersDetailDataset.getColor()) {
+                holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.take));
+            } else {
+                holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.give));
+            }
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

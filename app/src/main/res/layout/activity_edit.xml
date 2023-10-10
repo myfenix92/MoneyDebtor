@@ -11,6 +11,18 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+    <ToggleButton
+        android:id="@+id/switch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:textOff="Отдали"
+        android:textOn="Одолжили"
+        android:checked="true"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -25,10 +37,11 @@
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLength="50"
         android:inputType="textCapWords|text" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/dateTakeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -59,19 +72,8 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
 
-    <ToggleButton
-        android:id="@+id/switch_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="15dp"
-        android:textOff="Отдали"
-        android:textOn="Одолжили"
-        android:checked="true"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
     <TextView
+        android:id="@+id/dateGiveText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
