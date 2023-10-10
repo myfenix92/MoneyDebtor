@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/delete_user"
+        android:title="Удалить пользователя"
+        android:orderInCategory="2"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/sort_by_summa"
+        android:title="Отсортировать по сумме"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+</menu>

@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                 2, LinearLayoutManager.VERTICAL);

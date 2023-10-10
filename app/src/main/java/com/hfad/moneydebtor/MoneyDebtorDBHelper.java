@@ -133,7 +133,7 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean deleteData(int _id)
+    public Boolean deleteUser(int _id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ?",
