@@ -8,6 +8,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,17 +42,28 @@ public class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+//            this.getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dateTake = (EditText) findViewById(R.id.edit_date_take);
         dateGive = (EditText) findViewById(R.id.edit_date_give);
         switchDebtor = findViewById(R.id.switch_btn);
         TextView textDateGive = findViewById(R.id.dateGiveText);
         TextView textDateTake = findViewById(R.id.dateTakeText);
+
         setDate(dateTake);
         dateTakeNumber = myCalendar.getTime().getTime();
         String value = getIntent().getStringExtra("id_intent");
         String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
         nameUser = findViewById(R.id.edit_name);
+        nameUser.post(new Runnable() {
+            @Override
+            public void run() {
+                EditActivity.this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                nameUser.requestFocus();
+            }
+        });
+
         if (Objects.equals(value, "DetailActivity")) {
             Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
             nameUser.setText(nameUserText);
@@ -95,13 +108,16 @@ public class EditActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        db = new MoneyDebtorDBHelper(this);
         switchDebtor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
+
                     textDateTake.setText("Когда отдали:");
                     textDateGive.setVisibility(View.INVISIBLE);
                     dateGive.setVisibility(View.INVISIBLE);
+                    dateGive.setText("");
                 } else {
                     textDateTake.setText("Когда взяли:");
                     textDateGive.setVisibility(View.VISIBLE);
@@ -109,7 +125,7 @@ public class EditActivity extends AppCompatActivity {
                 }
             }
         });
-        db = new MoneyDebtorDBHelper(this);
+
 
     }
 
@@ -131,19 +147,24 @@ public class EditActivity extends AppCompatActivity {
         }
         switch (value) {
             case "MainActivity": {
-                long idNewUser = db.insertUsers(nameText, summaText);
-                boolean insertDetail = db.insertUsersDetail(idNewUser,
-                        dateTakeNumber,
-                        summaText,
-                        dateGiveNumber);
-                if (insertDetail) {
-                    Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
-
+                int checkName = db.getUniqueName(nameText);
+                if (checkName == 1) {
+                    Toast.makeText(this, "Такое имя уже существует", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+                    long idNewUser = db.insertUsers(nameText, summaText);
+                    boolean insertDetail = db.insertUsersDetail(idNewUser,
+                            dateTakeNumber,
+                            summaText,
+                            dateGiveNumber);
+                    if (insertDetail) {
+                        Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
                 break;
             }
             case "DetailActivity": {

@@ -6,6 +6,8 @@
 <data-extraction-rules>
     <cloud-backup>
         <!-- TODO: подсчет общей суммы при добавлении новой записи-->
+        <!-- TODO: проверка на одинаковые имена -->
+        <!-- TODO: редактирование записи -->
     </cloud-backup>
     <!--
     <device-transfer>

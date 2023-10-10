@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "moneydebtorDB";
+    private static final String DB_NAME = "moneydebtorDB1";
     private static final int DB_VERSION = 1;
 
     public MoneyDebtorDBHelper(Context context) {
@@ -16,6 +16,7 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         updateMyDatabase(db, 0, DB_VERSION);
     }
 
@@ -26,8 +27,8 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
-            db.execSQL("CREATE TABLE USERS(_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                    "NAME TEXT," +
+            db.execSQL("CREATE TABLE USERS(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "NAME TEXT UNIQUE," +
                     "ALL_SUMMA REAL DEFAULT 0);");
             db.execSQL("CREATE TABLE DETAIL_USERS(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "ID_USER INTEGER NOT NULL," +
@@ -135,6 +136,13 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USERS", null);
         return  cursor;
+    }
+
+    public int getUniqueName(String userName) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE NAME = ?;",
+                new String[]{String.valueOf(userName)});
+        return cursor.getCount();
     }
 
     public Cursor getDataUsers(int id) {
