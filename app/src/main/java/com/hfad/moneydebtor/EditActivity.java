@@ -42,8 +42,7 @@ public class EditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-//            this.getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
         dateTake = (EditText) findViewById(R.id.edit_date_take);
         dateGive = (EditText) findViewById(R.id.edit_date_give);
         switchDebtor = findViewById(R.id.switch_btn);
@@ -167,24 +166,22 @@ public class EditActivity extends AppCompatActivity {
                 }
                 break;
             }
+
             case "DetailActivity": {
                 int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
-                boolean insertDetail = db.insertUsersDetail(idUser,
+                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+
+                db.insertUsersDetail(idUser,
                         dateTakeNumber,
                         summaText,
                         dateGiveNumber);
-                if (insertDetail) {
-                    Toast.makeText(this, "insert other detail", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
-                }
-                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
-                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+                db.updateUsers(idUser, (allSummaUser + summaText));
+                String summaCut = String.format("%.2f", (allSummaUser + summaText));
                 Intent intent = new Intent(this, DetailActivity.class);
                 intent.putExtra(DetailActivity.USER_ID, idUser);
                 intent.putExtra(DetailActivity.USER_NAME, nameUser);
-                intent.putExtra(DetailActivity.USER_ALL_SUMMA, allSummaUser);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
                 startActivity(intent);
                 break;
             }

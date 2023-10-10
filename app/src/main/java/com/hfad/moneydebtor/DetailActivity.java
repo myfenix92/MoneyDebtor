@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +68,50 @@ public class DetailActivity extends AppCompatActivity {
         allSummaUser = findViewById(R.id.user_all_summa);
         nameUser.setText(userName);
         allSummaUser.setText(String.valueOf(userAllSumma));
+        EditText nameEditText = findViewById(R.id.edit_name_detail);
 
         displayDataDetail();
+        nameUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameEditText.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        DetailActivity.this.getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                        nameEditText.requestFocus();
+                    }
+                });
+                TextViewClicked();
+
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        //...
+        return false;
+    }
+
+    public void TextViewClicked() {
+        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.switch_name);
+        switcher.showNext();
+        EditText nameEditText = findViewById(R.id.edit_name_detail);
+        nameEditText.setText(nameUser.getText().toString());
+//        nameEditText.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                DetailActivity.this.getWindow().setSoftInputMode(
+//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//                nameEditText.requestFocus();
+//            }
+//        });
 
     }
 
     private List<UsersDetailDataset> displayDataDetail() {
-        TextView summa = findViewById(R.id.summa);
         cursor = db.getDataDetailUsers(userId);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
@@ -83,7 +124,7 @@ public class DetailActivity extends AppCompatActivity {
                                 cursor.getInt(0),
                                 cursor.getInt(1),
                                 cursor.getLong(2),
-                                cursor.getDouble(3), //< 0 ? cursor.getDouble(3) * (-1) : cursor.getDouble(3),
+                                cursor.getDouble(3),
                                 cursor.getLong(4),
                                 cursor.getDouble(3) > 0
                         ));

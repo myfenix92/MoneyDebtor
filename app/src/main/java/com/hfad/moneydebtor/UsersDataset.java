@@ -29,9 +29,10 @@ public class UsersDataset {
 
     public double getAll_summa() {
         if (all_summa < 0) {
-            return all_summa * -1;
+            all_summa *= -1;
         }
-        return all_summa;
+        String summaCut = String.format("%.2f", all_summa);
+        return Double.parseDouble(summaCut);
     }
 
     public void setAll_summa(double all_summa) {
