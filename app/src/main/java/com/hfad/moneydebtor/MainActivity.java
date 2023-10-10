@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
+                2, LinearLayoutManager.VERTICAL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        recyclerViewUsers.setLayoutManager(linearLayoutManager);
+        recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
         usersAdapter = new UsersAdapter(this, usersDatasetList, listener);
         db = new MoneyDebtorDBHelper(this);
         recyclerViewUsers.setAdapter(usersAdapter);

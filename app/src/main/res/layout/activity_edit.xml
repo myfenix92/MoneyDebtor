@@ -1,119 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".EditActivity">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-    <ToggleButton
-        android:id="@+id/switch_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="15dp"
-        android:textOff="Отдали"
-        android:textOn="Одолжили"
-        android:checked="true"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:padding="5dp"
-        android:text="Имя:"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLength="50"
-        android:inputType="textCapWords|text" />
-
-    <TextView
-        android:id="@+id/dateTakeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Дата когда взяли:"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edit_date_take"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Сумма:"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edit_summa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:inputType="numberDecimal" />
-
-    <TextView
-        android:id="@+id/dateGiveText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Дата когда отдавать:"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edit_date_give"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
+    android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-        <Button
-            android:id="@+id/ok_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:onClick="addNewRecord"
-            android:text="OK" />
+        android:orientation="vertical"
+        tools:context=".EditActivity">
 
-        <Button
-            android:id="@+id/cancel_btn"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <ToggleButton
+            android:id="@+id/switch_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="15dp"
+            android:textOff="Отдали"
+            android:textOn="Одолжили"
+            android:checked="true"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="5dp"
+            android:text="Имя:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50"
+            android:inputType="textCapWords|text" />
+
+        <TextView
+            android:id="@+id/dateTakeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Дата когда взяли:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_date_take"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Сумма:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_summa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/dateGiveText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Дата когда отдавать:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_date_give"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:onClick="cancelRecord"
-            android:text="Отмена" />
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <Button
+                android:id="@+id/ok_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="addNewRecord"
+                android:text="OK" />
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="cancelRecord"
+                android:text="Отмена" />
+        </LinearLayout>
+
+
+
     </LinearLayout>
-
-
-
-</LinearLayout>
+</ScrollView>
