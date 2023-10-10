@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -48,8 +50,9 @@ public class EditActivity extends AppCompatActivity {
         switchDebtor = findViewById(R.id.switch_btn);
         TextView textDateGive = findViewById(R.id.dateGiveText);
         TextView textDateTake = findViewById(R.id.dateTakeText);
-
+        summa = findViewById(R.id.edit_summa);
         setDate(dateTake);
+        summa.setText("0");
         dateTakeNumber = myCalendar.getTime().getTime();
         String value = getIntent().getStringExtra("id_intent");
         String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
@@ -125,6 +128,36 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
+        summa.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //Считываем вводимый текст
+                String str = editable.toString();
+                //Узнаем позицию
+                int position = str.indexOf(".");
+                //Если точка есть делаем проверки
+                if (position != -1) {
+                    //Отрезаем кусок строки начиная с точки и до конца строки
+                    String subStr = str.substring(position);
+                    //Отрезаем строку с начала и до точки
+                    String subStrStart = str.substring(0, position);
+                    //Если символов после точки больше чем 3 или если точка первая в строке - удаляем последний
+                    if (subStr.length() > 3 || subStrStart.length() == 0) {
+                        editable.delete(editable.length() - 1, editable.length());
+                    }
+                }
+            }
+        });
 
     }
 
@@ -147,7 +180,9 @@ public class EditActivity extends AppCompatActivity {
         switch (value) {
             case "MainActivity": {
                 int checkName = db.getUniqueName(nameText);
-                if (checkName == 1) {
+                if (nameText.isEmpty()) {
+                    Toast.makeText(this, "Имя не может быть пустым", Toast.LENGTH_SHORT).show();
+                } else if (checkName == 1) {
                     Toast.makeText(this, "Такое имя уже существует", Toast.LENGTH_SHORT).show();
                 } else {
                     long idNewUser = db.insertUsers(nameText, summaText);
