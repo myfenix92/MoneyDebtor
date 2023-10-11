@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,7 +20,6 @@ import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -252,7 +250,7 @@ public class EditActivity extends AppCompatActivity {
                             summaText,
                             dateGiveNumber);
                     db.updateUsers(idUser, (allSummaUser + summaText));
-                    String summaCut = String.format("%.2f", (allSummaUser + summaText));
+                    String summaCut = String.format(Locale.US, "%.2f", (allSummaUser + summaText));
                     Intent intent = new Intent(this, DetailActivity.class);
                     intent.putExtra(DetailActivity.USER_ID, idUser);
                     intent.putExtra(DetailActivity.USER_NAME, nameUser);
@@ -270,7 +268,7 @@ public class EditActivity extends AppCompatActivity {
                 if (summa.getText().toString().isEmpty()) {
                     Toast.makeText(this, R.string.empty_summa, Toast.LENGTH_SHORT).show();
                 } else {
-                    double tempSumma = 0;
+                    double tempSumma;
                     if (color) {
                         tempSumma = allSummaUser - startSumma + summaText;
                     } else {
@@ -278,7 +276,7 @@ public class EditActivity extends AppCompatActivity {
                     }
                     db.updateUsers(idUser, tempSumma);
                     db.updateUsersDetail(idRecord, dateTakeNumber, summaText, dateGiveNumber);
-                    String summaCut = String.format("%.2f", tempSumma);
+                    String summaCut = String.format(Locale.US, "%.2f", tempSumma);
                     Intent intent = new Intent(this, DetailActivity.class);
                     intent.putExtra(DetailActivity.USER_ID, idUser);
                     intent.putExtra(DetailActivity.USER_NAME, nameUser);

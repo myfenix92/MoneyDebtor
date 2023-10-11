@@ -5,8 +5,8 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: ошибки на empty -->
-        <!-- TODO: сделать string файл для текстовых записей -->
+        <!-- TODO: ошибки на empty сделать метод -->
+        <!-- TODO: сортировка по нажатию на поле сверху, цвет по умолчанию, а так по сумме -->
     </cloud-backup>
     <!--
     <device-transfer>

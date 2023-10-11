@@ -2,7 +2,6 @@ package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -13,10 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private List<UsersDataset> displayData() {
+    private void displayData() {
         cursor = db.getDataUsers();
         if (cursor.getCount() == 0) {
             usersDatasetList.clear();
@@ -81,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         }
-        return usersDatasetList;
     }
 
     @Override

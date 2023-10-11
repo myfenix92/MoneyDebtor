@@ -187,7 +187,7 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private List<UsersDetailDataset> displayDataDetail() {
+    private void displayDataDetail() {
         cursor = db.getDataDetailUsers(userId);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
@@ -206,7 +206,6 @@ public class DetailActivity extends AppCompatActivity {
                         ));
             }
         }
-        return usersDetailDatasetList;
     }
 
     public void addNewUser(View view) {
