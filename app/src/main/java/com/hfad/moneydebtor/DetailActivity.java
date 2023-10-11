@@ -1,15 +1,19 @@
 package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
     double userAllSumma;
     TextView nameUser;
     TextView allSummaUser;
+    private String m_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,25 +75,8 @@ public class DetailActivity extends AppCompatActivity {
         allSummaUser = findViewById(R.id.user_all_summa);
         nameUser.setText(userName);
         allSummaUser.setText(String.valueOf(userAllSumma));
-        EditText nameEditText = findViewById(R.id.edit_name_detail);
 
         displayDataDetail();
-        nameUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameEditText.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        DetailActivity.this.getWindow().setSoftInputMode(
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        nameEditText.requestFocus();
-                    }
-                });
-                TextViewClicked();
-
-            }
-        });
-
     }
 
     @Override
@@ -97,36 +85,94 @@ public class DetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void dialogDeleteUser(View view) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(promtView);
+        final TextView textTitle = promtView.findViewById(R.id.title_alert);
+        textTitle.setText(R.string.title_delete_alert);
+        final TextView textDescription = promtView.findViewById(R.id.text_alert);
+        textDescription.setText(R.string.text_delete_alert);
+        final EditText changeName = promtView.findViewById(R.id.input_change_name);
+        changeName.setVisibility(View.GONE);
+        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.deleteUser(userId);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void dialogChangeNameUser(View view) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(promtView);
+        final TextView textTitle = promtView.findViewById(R.id.title_alert);
+        textTitle.setText(R.string.title_delete_alert);
+        final TextView textDescription = promtView.findViewById(R.id.text_alert);
+        textDescription.setText(R.string.text_delete_alert);
+        final EditText changeName = promtView.findViewById(R.id.input_change_name);
+        nameUser = findViewById(R.id.user_name_detail);
+        changeName.setText(nameUser.getText().toString());
+        changeName.setSelection(changeName.getText().length());
+        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeName.clearFocus();
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (changeName.length() > 0) {
+                    m_Text = changeName.getText().toString();
+                    db.updateUsers(userId, m_Text);
+                    nameUser.setText(m_Text);
+                    alertDialog.dismiss();
+                } else {
+                    Toast.makeText(DetailActivity.this, R.string.empty_error,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.delete_user) {
-            db.deleteUser(userId);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            CoordinatorLayout coordinatorLayoutDetail = findViewById(R.id.coordinator_detail);
+            dialogDeleteUser(coordinatorLayoutDetail);
+        }
+        if (menuItem.getItemId() == R.id.change_name_user) {
+            CoordinatorLayout coordinatorLayoutDetail = findViewById(R.id.coordinator_detail);
+            dialogChangeNameUser(coordinatorLayoutDetail);
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        //...
-        return false;
-    }
-
-    public void TextViewClicked() {
-        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.switch_name);
-        switcher.showNext();
-        EditText nameEditText = findViewById(R.id.edit_name_detail);
-        nameEditText.setText(nameUser.getText().toString());
-//        nameEditText.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                DetailActivity.this.getWindow().setSoftInputMode(
-//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//                nameEditText.requestFocus();
-//            }
-//        });
-
     }
 
     private List<UsersDetailDataset> displayDataDetail() {
