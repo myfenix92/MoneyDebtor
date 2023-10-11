@@ -21,19 +21,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="15dp"
-            android:textOff="Отдали"
-            android:textOn="Одолжили"
+            android:textOn="@string/text_on_switch"
+            android:textOff="@string/text_off_switch"
             android:checked="true"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:padding="5dp"
-            android:text="Имя:"
+            android:text="@string/name_user_text"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -49,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Дата когда взяли:"
+            android:text="@string/date_take_text"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -66,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Сумма:"
+            android:text="@string/text_summa"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -81,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Дата когда отдавать:"
+            android:text="@string/date_give_text_1"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -106,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:onClick="addNewRecord"
-                android:text="OK" />
+                android:text="@string/ok_btn" />
 
             <Button
                 android:id="@+id/cancel_btn"
@@ -114,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:onClick="cancelRecord"
-                android:text="Отмена" />
+                android:text="@string/cancel_btn" />
         </LinearLayout>
 
 

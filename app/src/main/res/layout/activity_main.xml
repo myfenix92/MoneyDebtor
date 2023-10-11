@@ -27,6 +27,6 @@
         app:tint="@color/white"
         app:backgroundTint="@color/black"
         android:src="@drawable/ic_add_white_24dp"
-        android:contentDescription="new user" />
+        android:contentDescription="@string/new_user_desc" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -58,11 +58,6 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
 
     }
 
-    public void updateData(List<UsersDetailDataset> data) {
-        dataList = data;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return dataList.size();

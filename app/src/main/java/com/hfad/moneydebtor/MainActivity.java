@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     MoneyDebtorDBHelper db;
     UsersAdapter usersAdapter;
     Cursor cursor;
-
     private final String ID_ACTIVITY = "MainActivity";
 
     @Override
@@ -40,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onViewClick(UsersDataset data, int position) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(DetailActivity.USER_ID, usersDatasetList.get(position).getId_user());
-                intent.putExtra(DetailActivity.USER_NAME, usersDatasetList.get(position).getName_user());
-                intent.putExtra(DetailActivity.USER_ALL_SUMMA, usersDatasetList.get(position).getAll_summa());
+                intent.putExtra(DetailActivity.USER_ID, usersDatasetList
+                        .get(position).getId_user());
+                intent.putExtra(DetailActivity.USER_NAME, usersDatasetList
+                        .get(position).getName_user());
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, usersDatasetList.get(position)
+                        .getAll_summa());
                 startActivity(intent);
             }
         };
@@ -50,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                 2, LinearLayoutManager.VERTICAL);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
         recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
         usersAdapter = new UsersAdapter(this, usersDatasetList, listener);
         db = new MoneyDebtorDBHelper(this);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         cursor = db.getDataUsers();
         if (cursor.getCount() == 0) {
             usersDatasetList.clear();
-            Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_db, Toast.LENGTH_SHORT).show();
         } else {
             usersDatasetList.clear();
             while (cursor.moveToNext()) {

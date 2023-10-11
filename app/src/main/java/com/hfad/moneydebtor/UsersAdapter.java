@@ -51,11 +51,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         });
     }
 
-    public void updateData(List<UsersDataset> data) {
-        dataList = data;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return dataList.size();

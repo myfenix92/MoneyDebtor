@@ -15,6 +15,7 @@
         <activity
             android:name=".EditActivity"
             android:exported="false"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".DetailActivity"

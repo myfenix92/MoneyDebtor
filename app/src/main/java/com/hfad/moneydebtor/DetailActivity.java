@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +15,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +63,12 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra(DetailActivity.USER_ID, userId);
                 intent.putExtra(DetailActivity.USER_NAME, userName);
                 intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
-                intent.putExtra("id_record", usersDetailDatasetList.get(position).getId_record());
-                intent.putExtra("date_take", usersDetailDatasetList.get(position).getDate_take());
-                intent.putExtra("date_give", usersDetailDatasetList.get(position).getDate_give());
+                intent.putExtra("id_record", usersDetailDatasetList
+                        .get(position).getId_record());
+                intent.putExtra("date_take", usersDetailDatasetList
+                        .get(position).getDate_take());
+                intent.putExtra("date_give", usersDetailDatasetList
+                        .get(position).getDate_give());
                 intent.putExtra("summa", usersDetailDatasetList.get(position).getSumma());
                 intent.putExtra("color", usersDetailDatasetList.get(position).getColor());
                 startActivity(intent);
@@ -86,7 +86,6 @@ public class DetailActivity extends AppCompatActivity {
         allSummaUser = findViewById(R.id.user_all_summa);
         nameUser.setText(userName);
         allSummaUser.setText(String.valueOf(userAllSumma));
-    //    usersDetailAdapter.updateData(usersDetailDatasetList);
         displayDataDetail();
     }
 
@@ -101,6 +100,7 @@ public class DetailActivity extends AppCompatActivity {
         View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(promtView);
+        builder.setIcon(android.R.drawable.ic_delete);
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
         textTitle.setText(R.string.title_delete_alert);
         final TextView textDescription = promtView.findViewById(R.id.text_alert);
@@ -130,10 +130,11 @@ public class DetailActivity extends AppCompatActivity {
         View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(promtView);
+        builder.setIcon(android.R.drawable.ic_menu_edit);
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
-        textTitle.setText(R.string.title_delete_alert);
+        textTitle.setText(R.string.title_change_name_alert);
         final TextView textDescription = promtView.findViewById(R.id.text_alert);
-        textDescription.setText(R.string.text_delete_alert);
+        textDescription.setVisibility(View.GONE);
         final EditText changeName = promtView.findViewById(R.id.input_change_name);
         nameUser = findViewById(R.id.user_name_detail);
         changeName.setText(nameUser.getText().toString());
@@ -190,7 +191,7 @@ public class DetailActivity extends AppCompatActivity {
         cursor = db.getDataDetailUsers(userId);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
-            Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_db, Toast.LENGTH_SHORT).show();
         } else {
             usersDetailDatasetList.clear();
             while (cursor.moveToNext()) {

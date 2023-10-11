@@ -4,5 +4,21 @@
     <string name="cancel_btn">Отмена</string>
     <string name="title_delete_alert">Подтвердите удаление</string>
     <string name="text_delete_alert">Удалить пользователя и все записи?</string>
+    <string name="title_change_name_alert">Изменение имени</string>
     <string name="empty_error">Поле не может быть пустым!</string>
+    <string name="empty_db">Записей пока нет</string>
+    <string name="default_summa">0</string>
+    <string name="date_take_text">Когда взяли:</string>
+    <string name="date_give_text">Когда отдали:</string>
+    <string name="date_give_text_1">Когда отдавать:</string>
+    <string name="empty_name">Поле Имя не может быть пустым!</string>
+    <string name="unique_name">Такое имя уже существует!</string>
+    <string name="empty_summa">Поле Сумма не может быть пустым!</string>
+    <string name="text_take">Взяли</string>
+    <string name="text_give">Отдавать</string>
+    <string name="text_summa">Сколько</string>
+    <string name="text_on_switch">Взяли</string>
+    <string name="text_off_switch">Отдали</string>
+    <string name="name_user_text">Имя:</string>
+    <string name="new_user_desc">Новая запись</string>
 </resources>

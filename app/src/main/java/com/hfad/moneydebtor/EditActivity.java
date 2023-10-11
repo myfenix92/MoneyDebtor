@@ -33,7 +33,6 @@ public class EditActivity extends AppCompatActivity {
     EditText summa;
     ToggleButton switchDebtor;
     MoneyDebtorDBHelper db;
-
     long dateTakeNumber;
     long dateGiveNumber;
     @Override
@@ -45,8 +44,8 @@ public class EditActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        dateTake = (EditText) findViewById(R.id.edit_date_take);
-        dateGive = (EditText) findViewById(R.id.edit_date_give);
+        dateTake = findViewById(R.id.edit_date_take);
+        dateGive = findViewById(R.id.edit_date_give);
         switchDebtor = findViewById(R.id.switch_btn);
         TextView textDateGive = findViewById(R.id.dateGiveText);
         TextView textDateTake = findViewById(R.id.dateTakeText);
@@ -60,24 +59,27 @@ public class EditActivity extends AppCompatActivity {
 
 
         if (Objects.equals(value, "MainActivity")) {
-//            nameUser.post(new Runnable() {
-//                @Override
-//                public void run() {
             nameUser.setFocusable(true);
-                    EditActivity.this.getWindow().setSoftInputMode(
+            EditActivity.this.getWindow().setSoftInputMode(
                             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                    nameUser.requestFocus();
-//                }
-//            });
+            nameUser.requestFocus();
             setDate(dateTake);
-            summa.setText("0");
+            summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivity")) {
             nameUser.setText(nameUserText);
             nameUser.setEnabled(false);
+            summa.setFocusable(true);
+            EditActivity.this.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            summa.requestFocus();
             setDate(dateTake);
-            summa.setText("0");
+            summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivityEdit")) {
             nameUser.setEnabled(false);
+            summa.setFocusable(true);
+            EditActivity.this.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            summa.requestFocus();
             EditRecord();
         }
 
@@ -100,7 +102,6 @@ public class EditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.DAY_OF_MONTH,day);
                 setDate(dateGive);
                 dateGiveNumber = myCalendar.getTime().getTime();
-
             }
         };
 
@@ -124,12 +125,12 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
-                    textDateTake.setText("Когда отдали:");
+                    textDateTake.setText(R.string.date_give_text);
                     textDateGive.setVisibility(View.INVISIBLE);
                     dateGive.setVisibility(View.INVISIBLE);
                     dateGive.setText("");
                 } else {
-                    textDateTake.setText("Когда взяли:");
+                    textDateTake.setText(R.string.date_take_text);
                     textDateGive.setVisibility(View.VISIBLE);
                     dateGive.setVisibility(View.VISIBLE);
                 }
@@ -139,12 +140,10 @@ public class EditActivity extends AppCompatActivity {
         summa.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -166,7 +165,6 @@ public class EditActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void setDate(EditText dateText){
@@ -181,12 +179,12 @@ public class EditActivity extends AppCompatActivity {
         boolean color = getIntent().getBooleanExtra("color", true);
         switchDebtor.setChecked(color);
         if (!color) {
-            textDateTake.setText("Когда отдали:");
+            textDateTake.setText(R.string.date_give_text);
             textDateGive.setVisibility(View.INVISIBLE);
             dateGive.setVisibility(View.INVISIBLE);
             dateGive.setText("");
         } else {
-            textDateTake.setText("Когда взяли:");
+            textDateTake.setText(R.string.date_take_text);
             textDateGive.setVisibility(View.VISIBLE);
             dateGive.setVisibility(View.VISIBLE);
         }
@@ -214,28 +212,28 @@ public class EditActivity extends AppCompatActivity {
         double summaText = Double.parseDouble(summa.getText().toString());
         String value = getIntent().getStringExtra("id_intent");
         switchDebtor = findViewById(R.id.switch_btn);
+        double startSumma = getIntent().getDoubleExtra("summa", 0);
+        boolean color = getIntent().getBooleanExtra("color", true);
         if (!switchDebtor.isChecked()) {
             summaText *= -1;
+            dateGive.setText("");
+            dateGiveNumber = 0;
         }
         switch (value) {
             case "MainActivity": {
                 int checkName = db.getUniqueName(nameText);
                 if (nameText.isEmpty()) {
-                    Toast.makeText(this, "Имя не может быть пустым", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.empty_name, Toast.LENGTH_SHORT).show();
                 } else if (checkName == 1) {
-                    Toast.makeText(this, "Такое имя уже существует", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.unique_name, Toast.LENGTH_SHORT).show();
+                } else if (summa.getText().toString().isEmpty()) {
+                    Toast.makeText(this, R.string.empty_summa, Toast.LENGTH_SHORT).show();
                 } else {
                     long idNewUser = db.insertUsers(nameText, summaText);
-                    boolean insertDetail = db.insertUsersDetail(idNewUser,
+                    db.insertUsersDetail(idNewUser,
                             dateTakeNumber,
                             summaText,
                             dateGiveNumber);
-                    if (insertDetail) {
-                        Toast.makeText(this, "insert detail", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(this, "not insert detail", Toast.LENGTH_SHORT).show();
-                    }
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -246,18 +244,21 @@ public class EditActivity extends AppCompatActivity {
                 int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
                 String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
                 double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
-
-                db.insertUsersDetail(idUser,
-                        dateTakeNumber,
-                        summaText,
-                        dateGiveNumber);
-                db.updateUsers(idUser, (allSummaUser + summaText));
-                String summaCut = String.format("%.2f", (allSummaUser + summaText));
-                Intent intent = new Intent(this, DetailActivity.class);
-                intent.putExtra(DetailActivity.USER_ID, idUser);
-                intent.putExtra(DetailActivity.USER_NAME, nameUser);
-                intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
-                startActivity(intent);
+                if (summa.getText().toString().isEmpty()) {
+                    Toast.makeText(this, R.string.empty_summa, Toast.LENGTH_SHORT).show();
+                } else {
+                    db.insertUsersDetail(idUser,
+                            dateTakeNumber,
+                            summaText,
+                            dateGiveNumber);
+                    db.updateUsers(idUser, (allSummaUser + summaText));
+                    String summaCut = String.format("%.2f", (allSummaUser + summaText));
+                    Intent intent = new Intent(this, DetailActivity.class);
+                    intent.putExtra(DetailActivity.USER_ID, idUser);
+                    intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                    intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
+                    startActivity(intent);
+                }
                 break;
             }
 
@@ -266,14 +267,24 @@ public class EditActivity extends AppCompatActivity {
                 int idRecord = getIntent().getIntExtra("id_record", 0);
                 String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
                 double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
-                db.updateUsers(idUser, (allSummaUser + summaText));
-                db.updateUsersDetail(idRecord, dateTakeNumber, summaText, dateGiveNumber);
-                String summaCut = String.format("%.2f", (allSummaUser + summaText));
-                Intent intent = new Intent(this, DetailActivity.class);
-                intent.putExtra(DetailActivity.USER_ID, idUser);
-                intent.putExtra(DetailActivity.USER_NAME, nameUser);
-                intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
-                startActivity(intent);
+                if (summa.getText().toString().isEmpty()) {
+                    Toast.makeText(this, R.string.empty_summa, Toast.LENGTH_SHORT).show();
+                } else {
+                    double tempSumma = 0;
+                    if (color) {
+                        tempSumma = allSummaUser - startSumma + summaText;
+                    } else {
+                        tempSumma = allSummaUser + startSumma + summaText;
+                    }
+                    db.updateUsers(idUser, tempSumma);
+                    db.updateUsersDetail(idRecord, dateTakeNumber, summaText, dateGiveNumber);
+                    String summaCut = String.format("%.2f", tempSumma);
+                    Intent intent = new Intent(this, DetailActivity.class);
+                    intent.putExtra(DetailActivity.USER_ID, idUser);
+                    intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                    intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
+                    startActivity(intent);
+                }
                 break;
             }
         }

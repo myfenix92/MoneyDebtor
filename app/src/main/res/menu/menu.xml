@@ -6,15 +6,15 @@
         android:title="Изменить имя"
         android:orderInCategory="1"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/sort_by_summa"
-        android:title="Отсортировать по сумме"
-        android:orderInCategory="2"
-        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/sort_by_summa"-->
+<!--        android:title="Отсортировать по сумме"-->
+<!--        android:orderInCategory="2"-->
+<!--        app:showAsAction="never"/>-->
     <item
         android:id="@+id/delete_user"
         android:title="Удалить пользователя"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         app:showAsAction="never"/>
 
 </menu>

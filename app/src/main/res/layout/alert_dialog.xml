@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:gravity="start"
-        android:lines="3"
+        android:lines="2"
         android:focusable="true"
         android:maxLength="50">
         <requestFocus/>
