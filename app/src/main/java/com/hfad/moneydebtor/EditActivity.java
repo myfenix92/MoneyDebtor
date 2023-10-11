@@ -51,25 +51,34 @@ public class EditActivity extends AppCompatActivity {
         TextView textDateGive = findViewById(R.id.dateGiveText);
         TextView textDateTake = findViewById(R.id.dateTakeText);
         summa = findViewById(R.id.edit_summa);
-        setDate(dateTake);
-        summa.setText("0");
+
         dateTakeNumber = myCalendar.getTime().getTime();
         String value = getIntent().getStringExtra("id_intent");
+
         String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
         nameUser = findViewById(R.id.edit_name);
-        nameUser.post(new Runnable() {
-            @Override
-            public void run() {
-                EditActivity.this.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                nameUser.requestFocus();
-            }
-        });
 
-        if (Objects.equals(value, "DetailActivity")) {
-            Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+
+        if (Objects.equals(value, "MainActivity")) {
+//            nameUser.post(new Runnable() {
+//                @Override
+//                public void run() {
+            nameUser.setFocusable(true);
+                    EditActivity.this.getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    nameUser.requestFocus();
+//                }
+//            });
+            setDate(dateTake);
+            summa.setText("0");
+        } else if (Objects.equals(value, "DetailActivity")) {
             nameUser.setText(nameUserText);
             nameUser.setEnabled(false);
+            setDate(dateTake);
+            summa.setText("0");
+        } else if (Objects.equals(value, "DetailActivityEdit")) {
+            nameUser.setEnabled(false);
+            EditRecord();
         }
 
         DatePickerDialog.OnDateSetListener dateTakeDialog = new DatePickerDialog.OnDateSetListener() {
@@ -115,7 +124,6 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
-
                     textDateTake.setText("Когда отдали:");
                     textDateGive.setVisibility(View.INVISIBLE);
                     dateGive.setVisibility(View.INVISIBLE);
@@ -165,6 +173,38 @@ public class EditActivity extends AppCompatActivity {
         String myFormat="dd.MM.yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         dateText.setText(dateFormat.format(myCalendar.getTime()));
+    }
+
+    public void EditRecord() {
+        TextView textDateGive = findViewById(R.id.dateGiveText);
+        TextView textDateTake = findViewById(R.id.dateTakeText);
+        boolean color = getIntent().getBooleanExtra("color", true);
+        switchDebtor.setChecked(color);
+        if (!color) {
+            textDateTake.setText("Когда отдали:");
+            textDateGive.setVisibility(View.INVISIBLE);
+            dateGive.setVisibility(View.INVISIBLE);
+            dateGive.setText("");
+        } else {
+            textDateTake.setText("Когда взяли:");
+            textDateGive.setVisibility(View.VISIBLE);
+            dateGive.setVisibility(View.VISIBLE);
+        }
+
+        String userName = getIntent().getStringExtra(DetailActivity.USER_NAME);
+        nameUser.setText(userName);
+
+        String date_take = getIntent().getStringExtra("date_take");
+        dateTake.setText(date_take);
+
+        String date_give = getIntent().getStringExtra("date_give");
+        dateGive.setText(date_give);
+        if (date_give.length() > 0) {
+            dateGiveNumber = myCalendar.getTime().getTime();
+        }
+
+        double summaRecord = getIntent().getDoubleExtra("summa", 0);
+        summa.setText(String.valueOf(summaRecord));
     }
 
     public void addNewRecord(View view) {
@@ -220,6 +260,22 @@ public class EditActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             }
+
+            case "DetailActivityEdit": {
+                int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+                int idRecord = getIntent().getIntExtra("id_record", 0);
+                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+                db.updateUsers(idUser, (allSummaUser + summaText));
+                db.updateUsersDetail(idRecord, dateTakeNumber, summaText, dateGiveNumber);
+                String summaCut = String.format("%.2f", (allSummaUser + summaText));
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_ID, idUser);
+                intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
+                startActivity(intent);
+                break;
+            }
         }
     }
 
@@ -227,13 +283,6 @@ public class EditActivity extends AppCompatActivity {
         nameUser = findViewById(R.id.edit_name);
         summa = findViewById(R.id.edit_summa);
         switchDebtor = findViewById(R.id.switch_btn);
-        nameUser.setText("");
-        dateTake.setText("");
-        dateGive.setText("");
-        summa.setText("");
-        switchDebtor.setChecked(true);
-     //   Bundle extras = getIntent().getExtras();
-     //   if (extras != null) {
             String value = getIntent().getStringExtra("id_intent");
             int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
             String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
@@ -244,7 +293,8 @@ public class EditActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 }
-                case "DetailActivity": {
+                case "DetailActivity":
+                case"DetailActivityEdit": {
                     Intent intent = new Intent(this, DetailActivity.class);
                     intent.putExtra(DetailActivity.USER_ID, idUser);
                     intent.putExtra(DetailActivity.USER_NAME, nameUser);
@@ -253,8 +303,6 @@ public class EditActivity extends AppCompatActivity {
                     break;
                 }
             }
-    //    }
-
     }
 
     @Override

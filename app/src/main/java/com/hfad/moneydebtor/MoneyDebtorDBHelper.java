@@ -110,19 +110,18 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updateUsersDetail(int _id, int id_user, long date_take, double summa, long date_give)
+    public Boolean updateUsersDetail(int _id, long date_take, double summa, long date_give)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersDetailValues = new ContentValues();
         usersDetailValues.put("DATE_TAKE", date_take);
         usersDetailValues.put("SUMMA", summa);
         usersDetailValues.put("DATE_GIVE", date_give);
-        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE _id = ? AND ID_USER = ?",
+        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
-            long result = db.update("DETAIL_USERS", usersDetailValues, "_id = ? " +
-                            "AND ID_USER = ?",
-                    new String[]{String.valueOf(_id), String.valueOf(id_user)});
+            long result = db.update("DETAIL_USERS", usersDetailValues, "_id = ?",
+                    new String[]{String.valueOf(_id)});
             if (result == -1) {
                 return false;
             } else {

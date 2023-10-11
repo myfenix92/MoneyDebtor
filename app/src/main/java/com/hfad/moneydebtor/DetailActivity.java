@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String USER_NAME = "user_name";
     public static final String USER_ALL_SUMMA = "user_all_summa";
     private static final String ID_ACTIVITY = "DetailActivity";
+    private static final String ID_ACTIVITY_EDIT = "DetailActivityEdit";
     int userId;
     String userName;
     double userAllSumma;
@@ -60,7 +61,17 @@ public class DetailActivity extends AppCompatActivity {
         UsersDetailAdapter.Listener listener = new UsersDetailAdapter.Listener() {
             @Override
             public void onEditClick(UsersDetailDataset data, int position) {
-
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("id_intent", ID_ACTIVITY_EDIT);
+                intent.putExtra(DetailActivity.USER_ID, userId);
+                intent.putExtra(DetailActivity.USER_NAME, userName);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
+                intent.putExtra("id_record", usersDetailDatasetList.get(position).getId_record());
+                intent.putExtra("date_take", usersDetailDatasetList.get(position).getDate_take());
+                intent.putExtra("date_give", usersDetailDatasetList.get(position).getDate_give());
+                intent.putExtra("summa", usersDetailDatasetList.get(position).getSumma());
+                intent.putExtra("color", usersDetailDatasetList.get(position).getColor());
+                startActivity(intent);
             }
         };
         recyclerViewUsersDetail = findViewById(R.id.recycler_user_list);
@@ -75,7 +86,7 @@ public class DetailActivity extends AppCompatActivity {
         allSummaUser = findViewById(R.id.user_all_summa);
         nameUser.setText(userName);
         allSummaUser.setText(String.valueOf(userAllSumma));
-
+    //    usersDetailAdapter.updateData(usersDetailDatasetList);
         displayDataDetail();
     }
 
