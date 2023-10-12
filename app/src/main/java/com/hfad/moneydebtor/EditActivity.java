@@ -49,7 +49,7 @@ public class EditActivity extends AppCompatActivity {
         TextView textDateTake = findViewById(R.id.dateTakeText);
         summa = findViewById(R.id.edit_summa);
 
-        dateTakeNumber = myCalendar.getTime().getTime();
+        //dateTakeNumber = myCalendar.getTime().getTime();
         String value = getIntent().getStringExtra("id_intent");
 
         String nameUserText = getIntent().getStringExtra(DetailActivity.USER_NAME);
@@ -62,6 +62,7 @@ public class EditActivity extends AppCompatActivity {
                             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             nameUser.requestFocus();
             setDate(dateTake);
+            dateTakeNumber = myCalendar.getTime().getTime();
             summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivity")) {
             nameUser.setText(nameUserText);
@@ -71,10 +72,13 @@ public class EditActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             summa.requestFocus();
             setDate(dateTake);
+            dateTakeNumber = myCalendar.getTime().getTime();
             summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivityEdit")) {
             nameUser.setEnabled(false);
             summa.setFocusable(true);
+            dateTakeNumber = getIntent().getLongExtra("date_take_long", 0);
+            dateGiveNumber = getIntent().getLongExtra("date_give_long", 0);
             EditActivity.this.getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             summa.requestFocus();
@@ -195,9 +199,6 @@ public class EditActivity extends AppCompatActivity {
 
         String date_give = getIntent().getStringExtra("date_give");
         dateGive.setText(date_give);
-        if (date_give.length() > 0) {
-            dateGiveNumber = myCalendar.getTime().getTime();
-        }
 
         double summaRecord = getIntent().getDoubleExtra("summa", 0);
         summa.setText(String.valueOf(summaRecord));
@@ -265,6 +266,7 @@ public class EditActivity extends AppCompatActivity {
                 int idRecord = getIntent().getIntExtra("id_record", 0);
                 String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
                 double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+
                 if (summa.getText().toString().isEmpty()) {
                     Toast.makeText(this, R.string.empty_summa, Toast.LENGTH_SHORT).show();
                 } else {

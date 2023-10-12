@@ -1,14 +1,13 @@
 package com.hfad.moneydebtor;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
@@ -43,11 +42,14 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
         holder.dateTake.setText(String.valueOf(usersDetailDataset.getDate_take()));
         holder.summa.setText(String.valueOf(usersDetailDataset.getSumma()));
         holder.dateGive.setText(String.valueOf(usersDetailDataset.getDate_give()));
+
         if (usersDetailDataset.getColor()) {
-                holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.take));
-            } else {
-                holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.give));
-            }
+            holder.summa.setBackgroundResource(R.drawable.summa_bg_take);
+        //    holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.take));
+        } else {
+            holder.summa.setBackgroundResource(R.drawable.summa_bg_give);
+        //    holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.give));
+        }
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,16 +66,38 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
         return dataList.size();
     }
 
+    public Boolean sortHelper(boolean sort) {
+        if (sort) {
+            sort = false;
 
-//    public void sortAscending() {
-//        dataList = dataList.sort(new Comparator<UsersDetailDataset>() {
-//            @Override
-//            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-//                return 0;
-//            }
-//        });
-//        notifyDataSetChanged();
-//    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                dataList.sort(new Comparator<UsersDetailDataset>() {
+                    @Override
+                    public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                        if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == 1) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+            }
+        } else {
+            sort = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                dataList.sort(new Comparator<UsersDetailDataset>() {
+                    @Override
+                    public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                        if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == -1) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+            }
+        }
+       notifyDataSetChanged();
+        return  sort;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView user_detail_cardView;

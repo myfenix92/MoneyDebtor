@@ -5,4 +5,6 @@
     <color name="lightred">#D88D8D</color>
     <color name="take">#45FF0000</color>
     <color name="give">#4558AC45</color>
+    <color name="bg_light">#EDEDED</color>
+    <color name="bg_night">#515151</color>
 </resources>

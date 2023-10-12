@@ -1,5 +1,7 @@
 package com.hfad.moneydebtor;
 
+import java.util.Locale;
+
 public class UsersDataset {
     private int id_user;
     private String name_user;
@@ -28,10 +30,10 @@ public class UsersDataset {
     }
 
     public double getAll_summa() {
-        if (all_summa < 0) {
-            all_summa *= -1;
-        }
-        String summaCut = String.format("%.2f", all_summa);
+//        if (all_summa < 0) {
+//            all_summa *= -1;
+//        }
+        String summaCut = String.format(Locale.US, "%.2f", all_summa);
         return Double.parseDouble(summaCut);
     }
 

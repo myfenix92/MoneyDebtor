@@ -40,7 +40,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         CardView cardView = holder.all_users_cardView;
         holder.name_user.setText(usersDataset.getName_user());
         holder.summa.setText(String.valueOf(usersDataset.getAll_summa()));
-
+        cardView.setBackgroundResource(R.drawable.main_card_bg);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

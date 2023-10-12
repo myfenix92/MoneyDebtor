@@ -6,7 +6,7 @@
 <data-extraction-rules>
     <cloud-backup>
         <!-- TODO: ошибки на empty сделать метод -->
-        <!-- TODO: сортировка по нажатию на поле сверху, цвет по умолчанию, а так по сумме -->
+        <!-- TODO: getData String наверно вынести отдельно и вызывать -->
     </cloud-backup>
     <!--
     <device-transfer>
