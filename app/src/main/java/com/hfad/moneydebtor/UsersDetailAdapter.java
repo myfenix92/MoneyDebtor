@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.ViewHolder> {
@@ -62,6 +63,17 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
     public int getItemCount() {
         return dataList.size();
     }
+
+
+//    public void sortAscending() {
+//        dataList = dataList.sort(new Comparator<UsersDetailDataset>() {
+//            @Override
+//            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+//                return 0;
+//            }
+//        });
+//        notifyDataSetChanged();
+//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView user_detail_cardView;

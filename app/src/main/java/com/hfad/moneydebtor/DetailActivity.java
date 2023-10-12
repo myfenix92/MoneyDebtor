@@ -1,5 +1,6 @@
 package com.hfad.moneydebtor;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
     RecyclerView recyclerViewUsersDetail;
@@ -41,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView nameUser;
     TextView allSummaUser;
     private String m_Text;
+    boolean sortBy = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +93,123 @@ public class DetailActivity extends AppCompatActivity {
         nameUser.setText(userName);
         allSummaUser.setText(String.valueOf(userAllSumma));
         displayDataDetail();
+
+        TextView sortDateTake = findViewById(R.id.sort_view_date_take);
+        TextView sortSumma = findViewById(R.id.sort_view_summa);
+        TextView sortDateGive = findViewById(R.id.sort_view_date_give);
+
+        sortSumma.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if (sortBy) {
+                    sortBy = false;
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                        if (Double.compare(o1.getSumma(), o2.getSumma()) == 1) {
+                            return -1;
+                        }
+                        return 0;
+                        }
+                    });
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                } else {
+                    sortBy = true;
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                        if (Double.compare(o1.getSumma(), o2.getSumma()) == -1) {
+                            return -1;
+                        }
+                        return 0;
+                        }
+                    });
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                }
+                usersDetailAdapter.notifyDataSetChanged();
+            }
+        });
+
+        sortDateTake.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if (sortBy) {
+                    sortBy = false;
+
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Long.compare(o1.getLongDate_take(), o2.getLongDate_take()) == 1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                } else {
+                    sortBy = true;
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Long.compare(o1.getLongDate_take(), o2.getLongDate_take()) == -1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                }
+                usersDetailAdapter.notifyDataSetChanged();
+            }
+        });
+
+        sortDateGive.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if (sortBy) {
+                    sortBy = false;
+
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == 1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                } else {
+                    sortBy = true;
+                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
+                        @Override
+                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                            if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == -1) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                }
+                usersDetailAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

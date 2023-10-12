@@ -75,6 +75,12 @@ public class UsersDetailDataset {
         }
         return dateText;
     }
+    public long getLongDate_take() {
+        return date_take;
+    }
+    public long getLongDate_give() {
+        return date_give;
+    }
 
     public void setDate_give(long date_give) {
         this.date_give = date_give;

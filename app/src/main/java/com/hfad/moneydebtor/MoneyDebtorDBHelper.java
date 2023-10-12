@@ -166,7 +166,8 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
 
     public Cursor getDataDetailUsers(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE ID_USER = ?",
+        Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE ID_USER = ? " +
+                        "ORDER BY DATE_TAKE DESC",
                 new String[]{String.valueOf(id)});
         return  cursor;
     }
