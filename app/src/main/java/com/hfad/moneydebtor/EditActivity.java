@@ -134,9 +134,9 @@ public class EditActivity extends AppCompatActivity {
                         editable.delete(editable.length() - 1, editable.length());
                     }
                 }
-                if (str.isEmpty()) {
-                    editable.append("0");
-                }
+//                if (str.isEmpty()) {
+//                    editable.append("0");
+//                }
             }
         });
     }
@@ -219,13 +219,28 @@ public class EditActivity extends AppCompatActivity {
         return Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
     }
 
-    private boolean checkEmpty(EditText editText) {
+    private boolean checkEmpty(EditText editText, int text) {
         if (editText.getText().toString().isEmpty()) {
-            toastEmptyEdit(getResources().getText(R.string.empty_name).toString()).show();
+            toastEmptyEdit(getResources().getText(text).toString()).show();
+            return true;
+        }
+        return  false;
+    }
+
+    private boolean checkNames(EditText editText, int text) {
+        if (checkEmpty(editText, text)) {
             return true;
         }
         if (db.getUniqueName(editText.getText().toString()) == 1) {
             toastEmptyEdit(getResources().getText(R.string.unique_name).toString()).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkNull(double value) {
+        if (value == 0.0) {
+            toastEmptyEdit(getResources().getText(R.string.zero_summa).toString()).show();
             return true;
         }
         return  false;
@@ -234,8 +249,21 @@ public class EditActivity extends AppCompatActivity {
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
         String nameText = nameUser.getText().toString();
+        if (checkNames(nameUser, R.string.empty_name)) {
+            return;
+        }
+
         summa = findViewById(R.id.edit_summa);
-        double summaText = Double.parseDouble(summa.getText().toString());
+        double summaText;
+        if (!checkEmpty(summa, R.string.empty_summa)) {
+            summaText = Double.parseDouble(summa.getText().toString());
+        } else {
+            return;
+        }
+        if (checkNull(summaText)) {
+            return;
+        }
+
         String value = getIntent().getStringExtra("id_intent");
         switchDebtor = findViewById(R.id.switch_btn);
         double startSumma = getIntent().getDoubleExtra("summa", 0);
@@ -247,7 +275,7 @@ public class EditActivity extends AppCompatActivity {
         }
         switch (value) {
             case "MainActivity": {
-                if (!checkEmpty(nameUser)) {
+            //    if (!checkEmpty(nameUser, R.string.unique_name)) {
                     long idNewUser = db.insertUsers(nameText, summaText);
                     db.insertUsersDetail(idNewUser,
                             dateTakeNumber,
@@ -255,7 +283,7 @@ public class EditActivity extends AppCompatActivity {
                             dateGiveNumber);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
-                }
+            //    }
                 break;
             }
 

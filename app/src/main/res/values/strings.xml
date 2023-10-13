@@ -12,6 +12,8 @@
     <string name="date_give_text">Когда отдали:</string>
     <string name="date_give_text_1">Когда отдавать:</string>
     <string name="empty_name">Поле Имя не может быть пустым!</string>
+    <string name="empty_summa">Поле Сумма не может быть пустым!</string>
+    <string name="zero_summa">Поле Сумма не может быть равно нулю!</string>
     <string name="unique_name">Такое имя уже существует!</string>
     <string name="text_take">Взяли</string>
     <string name="text_give">Отдавать</string>
