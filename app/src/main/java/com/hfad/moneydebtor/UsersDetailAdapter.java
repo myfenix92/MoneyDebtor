@@ -72,7 +72,7 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
                 dataList.sort(new Comparator<UsersDetailDataset>() {
                     @Override
                     public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == 1) {
+                        if (Long.compare(o1.getDate_give(), o2.getDate_give()) == 1) {
                             return -1;
                         }
                         return 0;
@@ -85,7 +85,7 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
                 dataList.sort(new Comparator<UsersDetailDataset>() {
                     @Override
                     public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == -1) {
+                        if (Long.compare(o1.getDate_give(), o2.getDate_give()) == -1) {
                             return -1;
                         }
                         return 0;

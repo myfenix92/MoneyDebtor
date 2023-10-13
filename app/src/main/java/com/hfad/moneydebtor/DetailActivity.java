@@ -76,9 +76,9 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("date_give", usersDetailDatasetList
                         .get(position).getDateString("date_give"));
                 intent.putExtra("date_take_long", usersDetailDatasetList
-                        .get(position).getLongDate_take());
+                        .get(position).getDate_take());
                 intent.putExtra("date_give_long", usersDetailDatasetList
-                        .get(position).getLongDate_give());
+                        .get(position).getDate_give());
                 intent.putExtra("summa", usersDetailDatasetList.get(position).getSumma());
                 intent.putExtra("color", usersDetailDatasetList.get(position).getColor());
                 startActivity(intent);
@@ -161,7 +161,7 @@ public class DetailActivity extends AppCompatActivity {
                     usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
                         @Override
                         public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Long.compare(o1.getLongDate_take(), o2.getLongDate_take()) == 1) {
+                            if (Long.compare(o1.getDate_take(), o2.getDate_take()) == 1) {
                                 return -1;
                             }
                             return 0;
@@ -172,7 +172,7 @@ public class DetailActivity extends AppCompatActivity {
                     usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
                         @Override
                         public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Long.compare(o1.getLongDate_take(), o2.getLongDate_take()) == -1) {
+                            if (Long.compare(o1.getDate_take(), o2.getDate_take()) == -1) {
                                 return -1;
                             }
                             return 0;

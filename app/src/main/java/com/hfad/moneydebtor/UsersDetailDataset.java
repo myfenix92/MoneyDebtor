@@ -37,16 +37,6 @@ public class UsersDetailDataset {
         this.id_user = id_user;
     }
 
-//    public String getDate_take() {
-//        Calendar myCalendar = Calendar.getInstance();
-//        String myFormat="dd.MM.yyyy";
-//        String dateText;
-//        myCalendar.setTimeInMillis(date_take);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
-//        dateText = dateFormat.format(myCalendar.getTime());
-//        return dateText;
-//    }
-
     public void setDate_take(long date_take) {
         this.date_take = date_take;
     }
@@ -87,10 +77,10 @@ public class UsersDetailDataset {
 
         return dateText;
     }
-    public long getLongDate_take() {
+    public long getDate_take() {
         return date_take;
     }
-    public long getLongDate_give() {
+    public long getDate_give() {
         return date_give;
     }
 
