@@ -39,16 +39,14 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
     public void onBindViewHolder(UsersDetailAdapter.ViewHolder holder, int position) {
         UsersDetailDataset usersDetailDataset = dataList.get(position);
         CardView cardView = holder.user_detail_cardView;
-        holder.dateTake.setText(String.valueOf(usersDetailDataset.getDate_take()));
+        holder.dateTake.setText(String.valueOf(usersDetailDataset.getDateString("date_take")));
         holder.summa.setText(String.valueOf(usersDetailDataset.getSumma()));
-        holder.dateGive.setText(String.valueOf(usersDetailDataset.getDate_give()));
+        holder.dateGive.setText(String.valueOf(usersDetailDataset.getDateString("date_give")));
 
         if (usersDetailDataset.getColor()) {
             holder.summa.setBackgroundResource(R.drawable.summa_bg_take);
-        //    holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.take));
         } else {
             holder.summa.setBackgroundResource(R.drawable.summa_bg_give);
-        //    holder.summa.setBackgroundColor(ContextCompat.getColor(context, R.color.give));
         }
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

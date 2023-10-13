@@ -72,9 +72,9 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("id_record", usersDetailDatasetList
                         .get(position).getId_record());
                 intent.putExtra("date_take", usersDetailDatasetList
-                        .get(position).getDate_take());
+                        .get(position).getDateString("date_take"));
                 intent.putExtra("date_give", usersDetailDatasetList
-                        .get(position).getDate_give());
+                        .get(position).getDateString("date_give"));
                 intent.putExtra("date_take_long", usersDetailDatasetList
                         .get(position).getLongDate_take());
                 intent.putExtra("date_give_long", usersDetailDatasetList

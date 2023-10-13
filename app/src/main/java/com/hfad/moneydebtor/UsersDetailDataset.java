@@ -37,15 +37,15 @@ public class UsersDetailDataset {
         this.id_user = id_user;
     }
 
-    public String getDate_take() {
-        Calendar myCalendar = Calendar.getInstance();
-        String myFormat="dd.MM.yyyy";
-        String dateText;
-        myCalendar.setTimeInMillis(date_take);
-        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
-        dateText = dateFormat.format(myCalendar.getTime());
-        return dateText;
-    }
+//    public String getDate_take() {
+//        Calendar myCalendar = Calendar.getInstance();
+//        String myFormat="dd.MM.yyyy";
+//        String dateText;
+//        myCalendar.setTimeInMillis(date_take);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+//        dateText = dateFormat.format(myCalendar.getTime());
+//        return dateText;
+//    }
 
     public void setDate_take(long date_take) {
         this.date_take = date_take;
@@ -62,17 +62,29 @@ public class UsersDetailDataset {
         this.summa = summa;
     }
 
-    public String getDate_give() {
+    public String getDateString(String nameDate) {
         Calendar myCalendar = Calendar.getInstance();
         String myFormat="dd.MM.yyyy";
-        String dateText;
-        if (date_give == 0) {
-            dateText = "";
-        } else {
-            myCalendar.setTimeInMillis(date_give);
-            SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
-            dateText = dateFormat.format(myCalendar.getTime());
+        String dateText = "";
+        switch (nameDate) {
+            case "date_take": {
+                myCalendar.setTimeInMillis(date_take);
+                SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+                dateText = dateFormat.format(myCalendar.getTime());
+                break;
+            }
+            case "date_give": {
+                if (date_give == 0) {
+                    dateText = "";
+                } else {
+                    myCalendar.setTimeInMillis(date_give);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+                    dateText = dateFormat.format(myCalendar.getTime());
+                }
+                break;
+            }
         }
+
         return dateText;
     }
     public long getLongDate_take() {
