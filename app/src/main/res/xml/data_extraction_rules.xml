@@ -5,8 +5,6 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: ошибки на empty сделать метод -->
-        <!-- TODO: курсор в конце суммы -->
         <!-- TODO: getData String наверно вынести отдельно и вызывать -->
     </cloud-backup>
     <!--

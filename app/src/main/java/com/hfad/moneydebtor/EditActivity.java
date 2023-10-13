@@ -25,14 +25,13 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends Helper {
     final Calendar myCalendar = Calendar.getInstance();
     EditText dateTake;
     EditText dateGive;
     EditText nameUser;
     EditText summa;
     ToggleButton switchDebtor;
-    MoneyDebtorDBHelper db;
     long dateTakeNumber;
     long dateGiveNumber;
     @Override
@@ -91,7 +90,7 @@ public class EditActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        db = new MoneyDebtorDBHelper(this);
+
         switchDebtor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -134,9 +133,6 @@ public class EditActivity extends AppCompatActivity {
                         editable.delete(editable.length() - 1, editable.length());
                     }
                 }
-//                if (str.isEmpty()) {
-//                    editable.append("0");
-//                }
             }
         });
     }
@@ -173,6 +169,7 @@ public class EditActivity extends AppCompatActivity {
             summa.requestFocus();
             setDate(dateTake);
             summa.setText(R.string.default_summa);
+            summa.setSelection(summa.getText().length());
             dateTakeNumber = myCalendar.getTime().getTime();
         } else if (Objects.equals(value, "DetailActivityEdit")) {
             nameUser.setEnabled(false);
@@ -182,6 +179,12 @@ public class EditActivity extends AppCompatActivity {
             EditActivity.this.getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             summa.requestFocus();
+            summa.post(new Runnable() {
+                @Override
+                public void run() {
+                    summa.setSelection(summa.length());
+                }
+            });
             EditRecord();
         }
     }
@@ -215,41 +218,11 @@ public class EditActivity extends AppCompatActivity {
         summa.setText(String.valueOf(summaRecord));
     }
 
-    private Toast toastEmptyEdit(String errorText) {
-        return Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-    }
-
-    private boolean checkEmpty(EditText editText, int text) {
-        if (editText.getText().toString().isEmpty()) {
-            toastEmptyEdit(getResources().getText(text).toString()).show();
-            return true;
-        }
-        return  false;
-    }
-
-    private boolean checkNames(EditText editText, int text) {
-        if (checkEmpty(editText, text)) {
-            return true;
-        }
-        if (db.getUniqueName(editText.getText().toString()) == 1) {
-            toastEmptyEdit(getResources().getText(R.string.unique_name).toString()).show();
-            return true;
-        }
-        return false;
-    }
-
-    private boolean checkNull(double value) {
-        if (value == 0.0) {
-            toastEmptyEdit(getResources().getText(R.string.zero_summa).toString()).show();
-            return true;
-        }
-        return  false;
-    }
-
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
         String nameText = nameUser.getText().toString();
-        if (checkNames(nameUser, R.string.empty_name)) {
+        String value = getIntent().getStringExtra("id_intent");
+        if (Objects.equals(value, "MainActivity") && checkNames(nameUser, R.string.empty_name)) {
             return;
         }
 
@@ -264,7 +237,7 @@ public class EditActivity extends AppCompatActivity {
             return;
         }
 
-        String value = getIntent().getStringExtra("id_intent");
+
         switchDebtor = findViewById(R.id.switch_btn);
         double startSumma = getIntent().getDoubleExtra("summa", 0);
         boolean color = getIntent().getBooleanExtra("color", true);
@@ -275,7 +248,6 @@ public class EditActivity extends AppCompatActivity {
         }
         switch (value) {
             case "MainActivity": {
-            //    if (!checkEmpty(nameUser, R.string.unique_name)) {
                     long idNewUser = db.insertUsers(nameText, summaText);
                     db.insertUsersDetail(idNewUser,
                             dateTakeNumber,
@@ -283,7 +255,6 @@ public class EditActivity extends AppCompatActivity {
                             dateGiveNumber);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
-            //    }
                 break;
             }
 

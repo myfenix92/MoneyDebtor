@@ -28,11 +28,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends Helper {
     RecyclerView recyclerViewUsersDetail;
     List<UsersDetailDataset> usersDetailDatasetList = new ArrayList<>();
-    MoneyDebtorDBHelper db;
     UsersDetailAdapter usersDetailAdapter;
     Cursor cursor;
     public static final String USER_ID = "user_id";
@@ -90,7 +90,6 @@ public class DetailActivity extends AppCompatActivity {
         recyclerViewUsersDetail.setLayoutManager(linearLayoutManager);
         usersDetailAdapter = new UsersDetailAdapter(this,
                 usersDetailDatasetList, listener);
-        db = new MoneyDebtorDBHelper(this);
         recyclerViewUsersDetail.setAdapter(usersDetailAdapter);
         nameUser = findViewById(R.id.user_name_detail);
         allSummaUser = findViewById(R.id.user_all_summa);
@@ -106,48 +105,7 @@ public class DetailActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                if (sortBy) {
-                    sortBy = false;
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Double.compare(o1.getSumma(), o2.getSumma()) == 1) {
-                            return -1;
-                        }
-                        return 0;
-                        }
-                    });
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
-                                return -1;
-                            }
-                            return 0;
-                        }
-                    });
-                } else {
-                    sortBy = true;
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Double.compare(o1.getSumma(), o2.getSumma()) == -1) {
-                            return -1;
-                        }
-                        return 0;
-                        }
-                    });
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
-                                return -1;
-                            }
-                            return 0;
-                        }
-                    });
-                }
-                usersDetailAdapter.notifyDataSetChanged();
+                sortBy = usersDetailAdapter.sortHelper(sortBy, "summa");
             }
         });
 
@@ -155,31 +113,7 @@ public class DetailActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                if (sortBy) {
-                    sortBy = false;
-
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Long.compare(o1.getDate_take(), o2.getDate_take()) == 1) {
-                                return -1;
-                            }
-                            return 0;
-                        }
-                    });
-                } else {
-                    sortBy = true;
-                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-                        @Override
-                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                            if (Long.compare(o1.getDate_take(), o2.getDate_take()) == -1) {
-                                return -1;
-                            }
-                            return 0;
-                        }
-                    });
-                }
-                usersDetailAdapter.notifyDataSetChanged();
+                sortBy = usersDetailAdapter.sortHelper(sortBy, "date_take");
             }
         });
 
@@ -187,32 +121,7 @@ public class DetailActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-               sortBy = usersDetailAdapter.sortHelper(sortBy);
-//                if (sortBy) {
-//                    sortBy = false;
-//
-//                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-//                        @Override
-//                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-//                            if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == 1) {
-//                                return -1;
-//                            }
-//                            return 0;
-//                        }
-//                    });
-//                } else {
-//                    sortBy = true;
-//                    usersDetailDatasetList.sort(new Comparator<UsersDetailDataset>() {
-//                        @Override
-//                        public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-//                            if (Long.compare(o1.getLongDate_give(), o2.getLongDate_give()) == -1) {
-//                                return -1;
-//                            }
-//                            return 0;
-//                        }
-//                    });
-//                }
-//                usersDetailAdapter.notifyDataSetChanged();
+               sortBy = usersDetailAdapter.sortHelper(sortBy, "date_give");
             }
         });
     }
@@ -289,14 +198,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if (changeName.length() > 0) {
+                if (!checkNames(changeName, R.string.empty_name)) {
                     m_Text = changeName.getText().toString();
                     db.updateUsers(userId, m_Text);
                     nameUser.setText(m_Text);
                     alertDialog.dismiss();
-                } else {
-                    Toast.makeText(DetailActivity.this, R.string.empty_error,
-                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

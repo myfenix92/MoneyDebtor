@@ -64,36 +64,123 @@ public class UsersDetailAdapter extends RecyclerView.Adapter<UsersDetailAdapter.
         return dataList.size();
     }
 
-    public Boolean sortHelper(boolean sort) {
-        if (sort) {
-            sort = false;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dataList.sort(new Comparator<UsersDetailDataset>() {
-                    @Override
-                    public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Long.compare(o1.getDate_give(), o2.getDate_give()) == 1) {
-                            return -1;
-                        }
-                        return 0;
+    public Boolean sortHelper(boolean sort, String nameField) {
+        switch (nameField) {
+            case "date_take": {
+                if (sort) {
+                    sort = false;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Long.compare(o1.getDate_take(), o2.getDate_take()) == 1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
                     }
-                });
+                } else {
+                    sort = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Long.compare(o1.getDate_take(), o2.getDate_take()) == -1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                }
+                break;
             }
-        } else {
-            sort = true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dataList.sort(new Comparator<UsersDetailDataset>() {
-                    @Override
-                    public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
-                        if (Long.compare(o1.getDate_give(), o2.getDate_give()) == -1) {
-                            return -1;
-                        }
-                        return 0;
+            case "date_give": {
+                if (sort) {
+                    sort = false;
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Long.compare(o1.getDate_give(), o2.getDate_give()) == 1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
                     }
-                });
+                } else {
+                    sort = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Long.compare(o1.getDate_give(), o2.getDate_give()) == -1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                }
+                break;
+            }
+            case "summa": {
+                if (sort) {
+                    sort = false;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Double.compare(o1.getSumma(), o2.getSumma()) == 1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                } else {
+                    sort = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Double.compare(o1.getSumma(), o2.getSumma()) == -1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        dataList.sort(new Comparator<UsersDetailDataset>() {
+                            @Override
+                            public int compare(UsersDetailDataset o1, UsersDetailDataset o2) {
+                                if (Boolean.compare(o1.getColor(), o2.getColor()) == 1) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
+                    }
+                }
+                break;
             }
         }
-       notifyDataSetChanged();
+        notifyDataSetChanged();
         return  sort;
     }
 
