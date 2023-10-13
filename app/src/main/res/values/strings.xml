@@ -4,7 +4,9 @@
     <string name="cancel_btn">Отмена</string>
     <string name="title_delete_alert">Подтвердите удаление</string>
     <string name="text_delete_alert">Удалить пользователя и все записи?</string>
+    <string name="menu_delete_alert">Удалить пользователя</string>
     <string name="title_change_name_alert">Изменение имени</string>
+    <string name="menu_change_name_alert">Измененить имя</string>
     <string name="empty_error">Поле не может быть пустым!</string>
     <string name="empty_db">Записей пока нет</string>
     <string name="default_summa">0</string>

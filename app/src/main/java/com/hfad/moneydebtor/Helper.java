@@ -24,13 +24,10 @@ public class Helper extends AppCompatActivity {
         if (checkEmpty(editText, text)) {
             return true;
         }
-        Toast.makeText(this, "before", Toast.LENGTH_SHORT).show();
         if (db.getUniqueName(editText.getText().toString()) == 1) {
             toastEmptyEdit(getResources().getText(R.string.unique_name).toString()).show();
             return true;
         }
-        Toast.makeText(this, "after", Toast.LENGTH_SHORT).show();
-
         return false;
     }
 

@@ -2,6 +2,8 @@ package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -9,7 +11,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -55,13 +64,34 @@ public class MainActivity extends AppCompatActivity {
         displayData();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.view_list) {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,
+                    LinearLayoutManager.VERTICAL, false);
+            recyclerViewUsers.setLayoutManager(layoutManager);
+        }
+        if (menuItem.getItemId() == R.id.view_grid) {
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
+                    2, LinearLayoutManager.VERTICAL);
+            recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("id_intent", ID_ACTIVITY);
         startActivity(intent);
     }
 
-    private void displayData() {
+    private int displayData() {
         cursor = db.getDataUsers();
         if (cursor.getCount() == 0) {
             usersDatasetList.clear();
@@ -77,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         }
+        return usersDatasetList.size();
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.hfad.moneydebtor;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private Context context;
     private List<UsersDataset> dataList;
     private Listener listener;
+    int delayAnimate = 50;
 
     public UsersAdapter(Context context, List<UsersDataset> dataList, Listener listener) {
         this.context = context;
@@ -38,6 +42,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull UsersAdapter.ViewHolder holder, int position) {
         UsersDataset usersDataset = dataList.get(position);
         CardView cardView = holder.all_users_cardView;
+        holder.itemView.setVisibility(View.INVISIBLE);
+        setAnimation(cardView, position);
         holder.name_user.setText(usersDataset.getName_user());
         holder.summa.setText(String.valueOf(usersDataset.getAll_summa()));
         cardView.setBackgroundResource(R.drawable.main_card_bg);
@@ -49,6 +55,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 }
             }
         });
+    }
+
+    public void setAnimation(View view, int position) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(context,
+                        android.R.anim.slide_in_left);
+                view.startAnimation(animation);
+                view.setVisibility(View.VISIBLE);
+            }
+        }, delayAnimate * position);
     }
 
     @Override

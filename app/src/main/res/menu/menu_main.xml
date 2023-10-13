@@ -2,14 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/change_name_user"
-        android:title="@string/menu_change_name_alert"
+        android:id="@+id/view_list"
+        android:title="Вид список"
         android:orderInCategory="1"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/delete_user"
-        android:title="@string/menu_delete_alert"
+        android:id="@+id/view_grid"
+        android:title="Вид плитка"
         android:orderInCategory="2"
         app:showAsAction="never"/>
-
 </menu>
