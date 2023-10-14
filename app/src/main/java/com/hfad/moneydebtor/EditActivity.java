@@ -159,7 +159,7 @@ public class EditActivity extends Helper {
             nameUser.requestFocus();
             setDate(dateTake);
             dateTakeNumber = myCalendar.getTime().getTime();
-            summa.setText(R.string.default_summa);
+        //    summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivity")) {
             nameUser.setText(nameUserText);
             nameUser.setEnabled(false);
@@ -168,7 +168,7 @@ public class EditActivity extends Helper {
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             summa.requestFocus();
             setDate(dateTake);
-            summa.setText(R.string.default_summa);
+        //    summa.setText(R.string.default_summa);
             summa.setSelection(summa.getText().length());
             dateTakeNumber = myCalendar.getTime().getTime();
         } else if (Objects.equals(value, "DetailActivityEdit")) {
@@ -220,7 +220,7 @@ public class EditActivity extends Helper {
 
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
-        String nameText = nameUser.getText().toString();
+        String nameText = nameUser.getText().toString().trim();
         String value = getIntent().getStringExtra("id_intent");
         if (Objects.equals(value, "MainActivity") && checkNames(nameUser, R.string.empty_name)) {
             return;
@@ -236,7 +236,6 @@ public class EditActivity extends Helper {
         if (checkNull(summaText)) {
             return;
         }
-
 
         switchDebtor = findViewById(R.id.switch_btn);
         double startSumma = getIntent().getDoubleExtra("summa", 0);

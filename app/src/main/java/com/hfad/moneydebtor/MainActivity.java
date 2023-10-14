@@ -109,11 +109,11 @@ public class MainActivity extends AppCompatActivity {
                         if (Double.compare(o1.getAll_summa(), o2.getAll_summa()) == -1) {
                             return -1;
                         }
-                        usersAdapter.notifyDataSetChanged();
                         return 0;
                     }
                 });
             }
+            usersAdapter.notifyDataSetChanged();
         } else if (menuItem.getItemId() == R.id.sort_summa_desc) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 usersDatasetList.sort(new Comparator<UsersDataset>() {
@@ -122,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
                         if (Double.compare(o1.getAll_summa(), o2.getAll_summa()) == 1) {
                             return -1;
                         }
-                        usersAdapter.notifyDataSetChanged();
                         return 0;
                     }
                 });
             }
+            usersAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(menuItem);
     }

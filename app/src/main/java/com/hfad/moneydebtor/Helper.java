@@ -13,7 +13,7 @@ public class Helper extends AppCompatActivity {
     }
 
     public boolean checkEmpty(EditText editText, int text) {
-        if (editText.getText().toString().isEmpty()) {
+        if (editText.getText().toString().trim().isEmpty()) {
             toastEmptyEdit(getResources().getText(text).toString()).show();
             return true;
         }
@@ -24,7 +24,7 @@ public class Helper extends AppCompatActivity {
         if (checkEmpty(editText, text)) {
             return true;
         }
-        if (db.getUniqueName(editText.getText().toString()) == 1) {
+        if (db.getUniqueName(editText.getText().toString().trim()) == 1) {
             toastEmptyEdit(getResources().getText(R.string.unique_name).toString()).show();
             return true;
         }

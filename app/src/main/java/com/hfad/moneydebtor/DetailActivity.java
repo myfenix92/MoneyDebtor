@@ -134,16 +134,12 @@ public class DetailActivity extends Helper {
 
     public void dialogDeleteUser(View view) {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
-        View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(promtView);
+
         builder.setIcon(android.R.drawable.ic_delete);
-        final TextView textTitle = promtView.findViewById(R.id.title_alert);
-        textTitle.setText(R.string.title_delete_alert);
-        final TextView textDescription = promtView.findViewById(R.id.text_alert);
-        textDescription.setText(R.string.text_delete_alert);
-        final EditText changeName = promtView.findViewById(R.id.input_change_name);
-        changeName.setVisibility(View.GONE);
+        builder.setTitle(R.string.title_delete_alert);
+        builder.setMessage(R.string.text_delete_alert);
+
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -166,16 +162,14 @@ public class DetailActivity extends Helper {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
         View promtView = layoutInflater.inflate(R.layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(promtView);
+        builder.setTitle(R.string.title_change_name_alert);
         builder.setIcon(android.R.drawable.ic_menu_edit);
-        final TextView textTitle = promtView.findViewById(R.id.title_alert);
-        textTitle.setText(R.string.title_change_name_alert);
-        final TextView textDescription = promtView.findViewById(R.id.text_alert);
-        textDescription.setVisibility(View.GONE);
+
         final EditText changeName = promtView.findViewById(R.id.input_change_name);
         nameUser = findViewById(R.id.user_name_detail);
         changeName.setText(nameUser.getText().toString());
         changeName.setSelection(changeName.getText().length());
+        builder.setView(promtView);
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
