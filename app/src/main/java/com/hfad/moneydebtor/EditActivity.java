@@ -323,6 +323,12 @@ public class EditActivity extends Helper {
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         db.close();

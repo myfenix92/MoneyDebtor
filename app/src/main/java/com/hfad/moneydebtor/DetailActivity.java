@@ -246,6 +246,12 @@ public class DetailActivity extends Helper {
     }
 
     @Override
+    public void onBackPressed() {
+        finishAffinity();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         cursor.close();

@@ -104,6 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:textColor="@color/white"
                 android:onClick="addNewRecord"
                 android:text="@string/ok_btn" />
 
@@ -112,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:textColor="@color/white"
                 android:onClick="cancelRecord"
                 android:text="@string/cancel_btn" />
         </LinearLayout>
