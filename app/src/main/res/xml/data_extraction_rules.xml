@@ -5,7 +5,7 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: getData String наверно вынести отдельно и вызывать -->
+        <!-- TODO: sort by name and all summa main activity -->
     </cloud-backup>
     <!--
     <device-transfer>

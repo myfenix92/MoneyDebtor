@@ -2,13 +2,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/view_list"
-        android:title="Вид список"
+        android:id="@+id/view_choose"
+        android:title="@string/menu_view"
         android:orderInCategory="1"
-        app:showAsAction="never"/>
+        android:icon="@drawable/list"
+        app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/view_grid"
-        android:title="Вид плитка"
+        android:id="@+id/menu_sort"
+        android:title="@string/menu_sort"
         android:orderInCategory="2"
-        app:showAsAction="never"/>
+        app:showAsAction="never">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_name_asc"
+                    android:title="@string/menu_sort_name_asc"
+                    android:orderInCategory="1"
+                    app:showAsAction="never"/>
+                <item
+                    android:id="@+id/sort_name_desc"
+                    android:title="@string/menu_sort_name_desc"
+                    android:orderInCategory="2"
+                    app:showAsAction="never"/>
+                <item
+                    android:id="@+id/sort_summa_asc"
+                    android:title="@string/menu_sort_summa_asc"
+                    android:orderInCategory="3"
+                    app:showAsAction="never"/>
+                <item
+                    android:id="@+id/sort_summa_desc"
+                    android:title="@string/menu_sort_summa_desc"
+                    android:orderInCategory="4"
+                    app:showAsAction="never"/>
+            </group>
+        </menu>
+    </item>
 </menu>

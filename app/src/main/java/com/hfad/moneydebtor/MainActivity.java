@@ -2,27 +2,25 @@ package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewUsers;
@@ -31,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     UsersAdapter usersAdapter;
     Cursor cursor;
     private final String ID_ACTIVITY = "MainActivity";
+    private boolean isView = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,18 +68,65 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    boolean isSort = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.view_list) {
+        if (menuItem.getItemId() == R.id.view_choose && isView) {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,
                     LinearLayoutManager.VERTICAL, false);
             recyclerViewUsers.setLayoutManager(layoutManager);
-        }
-        if (menuItem.getItemId() == R.id.view_grid) {
+            menuItem.setIcon(R.drawable.grid);
+            isView = false;
+        } else if (menuItem.getItemId() == R.id.view_choose && !isView) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                     2, LinearLayoutManager.VERTICAL);
             recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
+            menuItem.setIcon(R.drawable.list);
+            isView = true;
+        }
+
+        if (menuItem.getItemId() == R.id.sort_name_asc) {
+            Collections.sort(usersDatasetList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    return ((UsersDataset) o1).getName_user()
+                            .compareTo(((UsersDataset) o2).getName_user());
+                }
+            });
+            usersAdapter.notifyDataSetChanged();
+        } else if (menuItem.getItemId() == R.id.sort_name_desc) {
+            Collections.sort(usersDatasetList, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    return ((UsersDataset) o2).getName_user()
+                            .compareTo(((UsersDataset) o1).getName_user());
+                }
+            });
+            usersAdapter.notifyDataSetChanged();
+        } else if (menuItem.getItemId() == R.id.sort_summa_asc) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                usersDatasetList.sort(new Comparator<UsersDataset>() {
+                    @Override
+                    public int compare(UsersDataset o1, UsersDataset o2) {
+                        if (Double.compare(o1.getAll_summa(), o2.getAll_summa()) == -1) {
+                            return -1;
+                        }
+                        usersAdapter.notifyDataSetChanged();
+                        return 0;
+                    }
+                });
+            }
+        } else if (menuItem.getItemId() == R.id.sort_summa_desc) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                usersDatasetList.sort(new Comparator<UsersDataset>() {
+                    @Override
+                    public int compare(UsersDataset o1, UsersDataset o2) {
+                        if (Double.compare(o1.getAll_summa(), o2.getAll_summa()) == 1) {
+                            return -1;
+                        }
+                        usersAdapter.notifyDataSetChanged();
+                        return 0;
+                    }
+                });
+            }
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -91,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private int displayData() {
+    private void displayData() {
         cursor = db.getDataUsers();
         if (cursor.getCount() == 0) {
             usersDatasetList.clear();
@@ -107,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         }
-        return usersDatasetList.size();
     }
 
     @Override
