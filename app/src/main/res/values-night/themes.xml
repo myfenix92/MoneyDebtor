@@ -4,9 +4,11 @@
         <item name="colorPrimary">@color/lightred</item>
         <item name="colorPrimaryDark">@color/lightred</item>
         <item name="colorOnBackground">@color/bg_night</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="EditTextColor">
         <item name="android:textColor">@color/white</item>
     </style>
+
 </resources>

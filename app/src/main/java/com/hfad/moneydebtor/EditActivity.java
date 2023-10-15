@@ -300,10 +300,10 @@ public class EditActivity extends Helper {
         nameUser = findViewById(R.id.edit_name);
         summa = findViewById(R.id.edit_summa);
         switchDebtor = findViewById(R.id.switch_btn);
-            String value = getIntent().getStringExtra("id_intent");
-            int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
-            String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
-            double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+        String value = getIntent().getStringExtra("id_intent");
+        int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+        String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+        double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
             switch (value) {
                 case "MainActivity": {
                     Intent intent = new Intent(this, MainActivity.class);
@@ -311,7 +311,7 @@ public class EditActivity extends Helper {
                     break;
                 }
                 case "DetailActivity":
-                case"DetailActivityEdit": {
+                case "DetailActivityEdit": {
                     Intent intent = new Intent(this, DetailActivity.class);
                     intent.putExtra(DetailActivity.USER_ID, idUser);
                     intent.putExtra(DetailActivity.USER_NAME, nameUser);
@@ -323,9 +323,35 @@ public class EditActivity extends Helper {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
     public void onBackPressed() {
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
+        String value = getIntent().getStringExtra("id_intent");
+        int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+        String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
+        double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+        switch (value) {
+            case "MainActivity": {
+                finish();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case "DetailActivity":
+            case "DetailActivityEdit": {
+                finish();
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_ID, idUser);
+                intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, allSummaUser);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     @Override

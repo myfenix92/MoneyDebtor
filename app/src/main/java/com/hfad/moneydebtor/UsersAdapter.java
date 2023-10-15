@@ -3,6 +3,7 @@ package com.hfad.moneydebtor;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -22,8 +23,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private Context context;
     private List<UsersDataset> dataList;
     private Listener listener;
-    int delayAnimate = 50;
-
+    private int delayAnimate = 50;
+    
     public UsersAdapter(Context context, List<UsersDataset> dataList, Listener listener) {
         this.context = context;
         this.dataList = dataList;
@@ -61,12 +62,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation animation = AnimationUtils.loadAnimation(context,
-                        android.R.anim.slide_in_left);
+                Animation animation;
+                animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
                 view.startAnimation(animation);
                 view.setVisibility(View.VISIBLE);
             }
-        }, delayAnimate * position);
+        }, (long) delayAnimate * position);
     }
 
     @Override
@@ -79,6 +80,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         TextView name_user;
         TextView summa;
         CardView all_users_cardView;
+        MenuItem menuItem;
         public ViewHolder(CardView itemView) {
             super(itemView);
             all_users_cardView = itemView.findViewById(R.id.card_view_all_users);

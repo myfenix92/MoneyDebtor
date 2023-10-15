@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewUsers;
@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     UsersAdapter usersAdapter;
     Cursor cursor;
     private final String ID_ACTIVITY = "MainActivity";
-    private boolean isView = true;
+    private boolean isView;
+    SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,40 +53,55 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-
         recyclerViewUsers = findViewById(R.id.recycler_users_list);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
-                2, LinearLayoutManager.VERTICAL);
-        recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
+
         usersAdapter = new UsersAdapter(this, usersDatasetList, listener);
         db = new MoneyDebtorDBHelper(this);
         recyclerViewUsers.setAdapter(usersAdapter);
         displayData();
+        loadText();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (!isView) {
+            menu.findItem(R.id.view_choose).setIcon(R.drawable.grid);
+        }
         return super.onCreateOptionsMenu(menu);
     }
-    boolean isSort = false;
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.view_choose && isView) {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,
-                    LinearLayoutManager.VERTICAL, false);
-            recyclerViewUsers.setLayoutManager(layoutManager);
-            menuItem.setIcon(R.drawable.grid);
-            isView = false;
-        } else if (menuItem.getItemId() == R.id.view_choose && !isView) {
+
+    private void saveText(int menuItem, boolean viewBool) {
+        sPref = getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putInt("saved_id_menu", menuItem);
+        ed.putBoolean("save_isView", viewBool);
+        ed.commit();
+    }
+
+
+    private void loadText() {
+        sPref = getSharedPreferences("MyPref", MODE_PRIVATE);
+        int savedIdMenu = sPref.getInt("saved_id_menu", 0);
+        isView = sPref.getBoolean("save_isView", true);
+    //    viewMenu(savedIdMenu, isView);
+        sortMenu(savedIdMenu);
+    }
+
+    private void viewMenu(int idMenuItem, boolean isViewBool) {
+        if (isViewBool) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                     2, LinearLayoutManager.VERTICAL);
             recyclerViewUsers.setLayoutManager(staggeredGridLayoutManager);
-            menuItem.setIcon(R.drawable.list);
-            isView = true;
+        } else {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,
+                    LinearLayoutManager.VERTICAL, false);
+            recyclerViewUsers.setLayoutManager(layoutManager);
         }
+    }
 
-        if (menuItem.getItemId() == R.id.sort_name_asc) {
+    private void sortMenu(int idItemMenu) {
+        if (idItemMenu == R.id.sort_name_asc) {
             Collections.sort(usersDatasetList, new Comparator() {
                 public int compare(Object o1, Object o2) {
                     return ((UsersDataset) o1).getName_user()
@@ -93,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             usersAdapter.notifyDataSetChanged();
-        } else if (menuItem.getItemId() == R.id.sort_name_desc) {
+        } else if (idItemMenu == R.id.sort_name_desc) {
             Collections.sort(usersDatasetList, new Comparator() {
                 public int compare(Object o1, Object o2) {
                     return ((UsersDataset) o2).getName_user()
@@ -101,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             usersAdapter.notifyDataSetChanged();
-        } else if (menuItem.getItemId() == R.id.sort_summa_asc) {
+        } else if (idItemMenu == R.id.sort_summa_asc) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 usersDatasetList.sort(new Comparator<UsersDataset>() {
                     @Override
@@ -114,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
             usersAdapter.notifyDataSetChanged();
-        } else if (menuItem.getItemId() == R.id.sort_summa_desc) {
+        } else if (idItemMenu == R.id.sort_summa_desc) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 usersDatasetList.sort(new Comparator<UsersDataset>() {
                     @Override
@@ -128,6 +144,27 @@ public class MainActivity extends AppCompatActivity {
             }
             usersAdapter.notifyDataSetChanged();
         }
+        viewMenu(idItemMenu, isView);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.view_choose) {
+            if (isView) {
+                menuItem.setIcon(R.drawable.grid);
+                isView = false;
+                viewMenu(menuItem.getItemId(), isView);
+            } else {
+                menuItem.setIcon(R.drawable.list);
+                isView = true;
+                viewMenu(menuItem.getItemId(), isView);
+            }
+        } else {
+            if (menuItem.getGroupId() == R.id.group_sort) {
+                sortMenu(menuItem.getItemId());
+            }
+        }
+        saveText(menuItem.getItemId(), isView);
         return super.onOptionsItemSelected(menuItem);
     }
 

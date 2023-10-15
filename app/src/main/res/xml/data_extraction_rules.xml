@@ -6,6 +6,8 @@
 <data-extraction-rules>
     <cloud-backup>
         <!-- TODO: save setting view main and sort main -->
+        <!-- TODO: save pdf all transaction -->
+        <!-- TODO: check names for variables -->
     </cloud-backup>
     <!--
     <device-transfer>

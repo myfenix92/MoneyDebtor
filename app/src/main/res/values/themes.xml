@@ -5,6 +5,7 @@
         <item name="colorPrimaryDark">@color/lightred</item>
         <item name="colorOnBackground">@color/bg_light</item>
         <item name="colorAccent">@color/lightred</item>
+        <item name="colorControlNormal">@color/black</item>
     </style>
 
     <style name="EditTextColor">
