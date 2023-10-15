@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("saved_id_menu", menuItem);
         ed.putBoolean("save_isView", viewBool);
-        ed.commit();
+        ed.apply();
     }
 
 
@@ -84,11 +84,10 @@ public class MainActivity extends AppCompatActivity {
         sPref = getSharedPreferences("MyPref", MODE_PRIVATE);
         int savedIdMenu = sPref.getInt("saved_id_menu", 0);
         isView = sPref.getBoolean("save_isView", true);
-    //    viewMenu(savedIdMenu, isView);
         sortMenu(savedIdMenu);
     }
 
-    private void viewMenu(int idMenuItem, boolean isViewBool) {
+    private void viewMenu(boolean isViewBool) {
         if (isViewBool) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                     2, LinearLayoutManager.VERTICAL);
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
             usersAdapter.notifyDataSetChanged();
         }
-        viewMenu(idItemMenu, isView);
+        viewMenu(isView);
     }
 
     @Override
@@ -153,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
             if (isView) {
                 menuItem.setIcon(R.drawable.grid);
                 isView = false;
-                viewMenu(menuItem.getItemId(), isView);
+                viewMenu(isView);
             } else {
                 menuItem.setIcon(R.drawable.list);
                 isView = true;
-                viewMenu(menuItem.getItemId(), isView);
+                viewMenu(isView);
             }
         } else {
             if (menuItem.getGroupId() == R.id.group_sort) {

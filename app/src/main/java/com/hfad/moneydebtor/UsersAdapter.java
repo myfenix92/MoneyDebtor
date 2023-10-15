@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -47,7 +48,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         setAnimation(cardView, position);
         holder.name_user.setText(usersDataset.getName_user());
         holder.summa.setText(String.valueOf(usersDataset.getAll_summa()));
-        cardView.setBackgroundResource(R.drawable.main_card_bg);
+        if (Double.parseDouble(holder.summa.getText().toString()) > 0) {
+            cardView.setBackgroundResource(R.drawable.main_card_bg_positive);
+        } else if (Double.parseDouble(holder.summa.getText().toString()) < 0) {
+            cardView.setBackgroundResource(R.drawable.main_card_bg_negative);
+        } else {
+            cardView.setBackgroundResource(R.drawable.main_card_bg);
+        }
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

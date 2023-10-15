@@ -7,4 +7,8 @@
     <color name="give">#4558AC45</color>
     <color name="bg_light">#EDEDED</color>
     <color name="bg_night">#515151</color>
+    <color name="bg_night_card">#353535</color>
+    <color name="border_positive">#85FF4646</color>
+    <color name="border_negative">#8558AC45</color>
+    <color name="border_zero">#854594AC</color>
 </resources>

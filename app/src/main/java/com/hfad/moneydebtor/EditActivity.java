@@ -159,7 +159,6 @@ public class EditActivity extends Helper {
             nameUser.requestFocus();
             setDate(dateTake);
             dateTakeNumber = myCalendar.getTime().getTime();
-        //    summa.setText(R.string.default_summa);
         } else if (Objects.equals(value, "DetailActivity")) {
             nameUser.setText(nameUserText);
             nameUser.setEnabled(false);
@@ -168,7 +167,6 @@ public class EditActivity extends Helper {
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             summa.requestFocus();
             setDate(dateTake);
-        //    summa.setText(R.string.default_summa);
             summa.setSelection(summa.getText().length());
             dateTakeNumber = myCalendar.getTime().getTime();
         } else if (Objects.equals(value, "DetailActivityEdit")) {
