@@ -193,6 +193,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed(){
+        finishAffinity();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         cursor.close();

@@ -337,8 +337,6 @@ public class EditActivity extends Helper {
         switch (value) {
             case "MainActivity": {
                 finish();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
                 break;
             }
             case "DetailActivity":

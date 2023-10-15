@@ -244,15 +244,10 @@ public class DetailActivity extends Helper {
         intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
         startActivity(intent);
     }
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0, 0);
-    }
 
     @Override
     public void onBackPressed() {
-        finish();
+        finishAffinity();
         startActivity(new Intent(this, MainActivity.class));
     }
 
