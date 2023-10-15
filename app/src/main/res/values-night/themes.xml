@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MoneyDebtor" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/lightred</item>
-        <item name="colorPrimaryDark">@color/lightred</item>
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
         <item name="colorOnBackground">@color/bg_night</item>
         <item name="colorControlNormal">@color/white</item>
     </style>

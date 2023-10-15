@@ -10,7 +10,7 @@
     <include
         layout="@layout/toolbar"
         android:id="@+id/toolbar"
-        android:background="@color/lightred"/>
+        android:background="@color/main_color"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_users_list"
@@ -27,7 +27,7 @@
         android:layout_gravity="end|bottom"
         android:onClick="addNewUser"
         app:tint="@color/white"
-        app:backgroundTint="@color/lightred"
+        app:backgroundTint="@color/main_color"
         android:src="@drawable/ic_add_white_24dp"
         android:contentDescription="@string/new_user_desc" />
 

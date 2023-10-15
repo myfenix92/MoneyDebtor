@@ -94,7 +94,7 @@
         android:layout_gravity="end|bottom"
         android:onClick="addNewUser"
         app:tint="@color/white"
-        app:backgroundTint="@color/lightred"
+        app:backgroundTint="@color/main_color"
         android:src="@drawable/ic_add_white_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
