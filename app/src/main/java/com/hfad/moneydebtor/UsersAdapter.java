@@ -3,7 +3,6 @@ package com.hfad.moneydebtor;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -24,8 +22,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private Context context;
     private List<UsersDataset> dataList;
     private Listener listener;
-    private int delayAnimate = 50;
-    
+
     public UsersAdapter(Context context, List<UsersDataset> dataList, Listener listener) {
         this.context = context;
         this.dataList = dataList;
@@ -66,6 +63,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public void setAnimation(View view, int position) {
+        int delayAnimate = 50;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
