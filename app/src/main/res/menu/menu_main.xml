@@ -39,4 +39,9 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/menu_about_app"
+        android:title="@string/menu_about_app"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
 </menu>

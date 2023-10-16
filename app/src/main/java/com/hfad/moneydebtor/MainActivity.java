@@ -1,17 +1,21 @@
 package com.hfad.moneydebtor;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -163,8 +167,29 @@ public class MainActivity extends AppCompatActivity {
                 sortMenu(menuItem.getItemId());
             }
         }
+        if (menuItem.getItemId() == R.id.menu_about_app) {
+            CoordinatorLayout coordinatorLayoutDetail = findViewById(R.id.coordinator_main);
+            aboutHelper(coordinatorLayoutDetail);
+        }
         saveText(menuItem.getItemId(), isView);
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public void aboutHelper(View view) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View promtView = layoutInflater.inflate(R.layout.alert_about, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(android.R.drawable.sym_action_chat);
+        builder.setTitle(R.string.about_title);
+        builder.setView(promtView);
+        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     public void addNewUser(View view) {

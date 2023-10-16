@@ -51,7 +51,7 @@
             android:text="@string/text_take"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon_183109" />
+            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon" />
 
         <TextView
             android:id="@+id/sort_view_summa"
@@ -63,7 +63,7 @@
             android:text="@string/text_summa"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon_183109" />
+            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon" />
 
         <TextView
             android:id="@+id/sort_view_date_give"
@@ -74,7 +74,7 @@
             android:padding="5dp"
             android:text="@string/text_give"
             android:textSize="18sp"
-            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon_183109" />
+            app:drawableRightCompat="@drawable/arrow_sort_triangle_vertical_icon" />
 
     </LinearLayout>
 

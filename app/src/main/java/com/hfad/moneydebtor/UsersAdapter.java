@@ -87,7 +87,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         TextView name_user;
         TextView summa;
         CardView all_users_cardView;
-        MenuItem menuItem;
         public ViewHolder(CardView itemView) {
             super(itemView);
             all_users_cardView = itemView.findViewById(R.id.card_view_all_users);
