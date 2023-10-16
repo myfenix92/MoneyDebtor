@@ -32,6 +32,8 @@ public class EditActivity extends Helper {
     EditText nameUser;
     EditText summa;
     ToggleButton switchDebtor;
+    TextView textDateGive;
+    TextView textDateTake;
     long dateTakeNumber;
     long dateGiveNumber;
     @Override
@@ -46,8 +48,8 @@ public class EditActivity extends Helper {
         dateTake = findViewById(R.id.edit_date_take);
         dateGive = findViewById(R.id.edit_date_give);
         switchDebtor = findViewById(R.id.switch_btn);
-        TextView textDateGive = findViewById(R.id.dateGiveText);
-        TextView textDateTake = findViewById(R.id.dateTakeText);
+        textDateGive = findViewById(R.id.dateGiveText);
+        textDateTake = findViewById(R.id.dateTakeText);
         summa = findViewById(R.id.edit_summa);
 
         String value = getIntent().getStringExtra("id_intent");
@@ -188,8 +190,8 @@ public class EditActivity extends Helper {
     }
 
     private void EditRecord() {
-        TextView textDateGive = findViewById(R.id.dateGiveText);
-        TextView textDateTake = findViewById(R.id.dateTakeText);
+        textDateGive = findViewById(R.id.dateGiveText);
+        textDateTake = findViewById(R.id.dateTakeText);
         boolean color = getIntent().getBooleanExtra("color", true);
         switchDebtor.setChecked(color);
         if (!color) {
@@ -219,6 +221,7 @@ public class EditActivity extends Helper {
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
         String nameText = nameUser.getText().toString().trim();
+        String nameUserIntent = getIntent().getStringExtra(DetailActivity.USER_NAME);
         String value = getIntent().getStringExtra("id_intent");
         if (Objects.equals(value, "MainActivity") && checkNames(nameUser, R.string.empty_name)) {
             return;
@@ -238,6 +241,10 @@ public class EditActivity extends Helper {
         switchDebtor = findViewById(R.id.switch_btn);
         double startSumma = getIntent().getDoubleExtra("summa", 0);
         boolean color = getIntent().getBooleanExtra("color", true);
+        int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+        double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
+        int idRecord = getIntent().getIntExtra("id_record", 0);
+
         if (!switchDebtor.isChecked()) {
             summaText *= -1;
             dateGive.setText("");
@@ -256,25 +263,18 @@ public class EditActivity extends Helper {
             }
 
             case "DetailActivity": {
-                int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
-                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
-                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
                 db.insertUsersDetail(idUser, dateTakeNumber, summaText, dateGiveNumber);
                 db.updateUsers(idUser, (allSummaUser + summaText));
                 String summaCut = String.format(Locale.US, "%.2f", (allSummaUser + summaText));
                 Intent intent = new Intent(this, DetailActivity.class);
                 intent.putExtra(DetailActivity.USER_ID, idUser);
-                intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                intent.putExtra(DetailActivity.USER_NAME, nameUserIntent);
                 intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
                 startActivity(intent);
                 break;
             }
 
             case "DetailActivityEdit": {
-                int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
-                int idRecord = getIntent().getIntExtra("id_record", 0);
-                String nameUser = getIntent().getStringExtra(DetailActivity.USER_NAME);
-                double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
                 double tempSumma;
                 if (color) {
                     tempSumma = allSummaUser - startSumma + summaText;
@@ -286,7 +286,7 @@ public class EditActivity extends Helper {
                 String summaCut = String.format(Locale.US, "%.2f", tempSumma);
                 Intent intent = new Intent(this, DetailActivity.class);
                 intent.putExtra(DetailActivity.USER_ID, idUser);
-                intent.putExtra(DetailActivity.USER_NAME, nameUser);
+                intent.putExtra(DetailActivity.USER_NAME, nameUserIntent);
                 intent.putExtra(DetailActivity.USER_ALL_SUMMA, Double.parseDouble(summaCut));
                 startActivity(intent);
                 break;
