@@ -3,7 +3,6 @@ package com.hfad.moneydebtor;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,11 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 public class DetailActivity extends Helper {
     RecyclerView recyclerViewUsersDetail;
@@ -40,9 +35,9 @@ public class DetailActivity extends Helper {
     public static final String USER_ALL_SUMMA = "user_all_summa";
     private static final String ID_ACTIVITY = "DetailActivity";
     private static final String ID_ACTIVITY_EDIT = "DetailActivityEdit";
-    int userId;
-    String userName;
-    double userAllSumma;
+    int userIdIntent;
+    String userNameIntent;
+    double userAllSummaIntent;
     TextView nameUser;
     TextView allSummaUser;
     private String m_Text;
@@ -55,20 +50,22 @@ public class DetailActivity extends Helper {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        userId = (int) getIntent().getExtras().get(USER_ID);
-        userName = (String) getIntent().getExtras().get(USER_NAME);
-        userAllSumma = (double) getIntent().getExtras().get(USER_ALL_SUMMA);
+        userIdIntent = (int) getIntent().getExtras().get(USER_ID);
+        userNameIntent = (String) getIntent().getExtras().get(USER_NAME);
+        userAllSummaIntent = (double) getIntent().getExtras().get(USER_ALL_SUMMA);
 
         UsersDetailAdapter.Listener listener = new UsersDetailAdapter.Listener() {
             @Override
             public void onEditClick(UsersDetailDataset data, int position) {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("id_intent", ID_ACTIVITY_EDIT);
-                intent.putExtra(DetailActivity.USER_ID, userId);
-                intent.putExtra(DetailActivity.USER_NAME, userName);
-                intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
+                intent.putExtra(DetailActivity.USER_ID, userIdIntent);
+                intent.putExtra(DetailActivity.USER_NAME, userNameIntent);
+                intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSummaIntent);
                 intent.putExtra("id_record", usersDetailDatasetList
                         .get(position).getId_record());
                 intent.putExtra("date_take", usersDetailDatasetList
@@ -93,8 +90,8 @@ public class DetailActivity extends Helper {
         recyclerViewUsersDetail.setAdapter(usersDetailAdapter);
         nameUser = findViewById(R.id.user_name_detail);
         allSummaUser = findViewById(R.id.user_all_summa);
-        nameUser.setText(userName);
-        allSummaUser.setText(String.valueOf(userAllSumma));
+        nameUser.setText(userNameIntent);
+        allSummaUser.setText(String.valueOf(userAllSummaIntent));
         displayDataDetail();
 
         TextView sortDateTake = findViewById(R.id.sort_view_date_take);
@@ -133,7 +130,6 @@ public class DetailActivity extends Helper {
     }
 
     public void dialogDeleteUser(View view) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setIcon(android.R.drawable.ic_delete);
@@ -143,7 +139,7 @@ public class DetailActivity extends Helper {
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                db.deleteUser(userId);
+                db.deleteUser(userIdIntent);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
@@ -194,7 +190,8 @@ public class DetailActivity extends Helper {
             {
                 if (!checkNames(changeName, R.string.empty_name)) {
                     m_Text = changeName.getText().toString();
-                    db.updateUsers(userId, m_Text);
+                    db.updateUsers(userIdIntent, m_Text);
+                    userNameIntent = m_Text;
                     nameUser.setText(m_Text);
                     alertDialog.dismiss();
                 }
@@ -216,7 +213,7 @@ public class DetailActivity extends Helper {
     }
 
     private void displayDataDetail() {
-        cursor = db.getDataDetailUsers(userId);
+        cursor = db.getDataDetailUsers(userIdIntent);
         if (cursor.getCount() == 0) {
             usersDetailDatasetList.clear();
             Toast.makeText(this, R.string.empty_db, Toast.LENGTH_SHORT).show();
@@ -239,9 +236,9 @@ public class DetailActivity extends Helper {
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("id_intent", ID_ACTIVITY);
-        intent.putExtra(DetailActivity.USER_ID, userId);
-        intent.putExtra(DetailActivity.USER_NAME, userName);
-        intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSumma);
+        intent.putExtra(DetailActivity.USER_ID, userIdIntent);
+        intent.putExtra(DetailActivity.USER_NAME, userNameIntent);
+        intent.putExtra(DetailActivity.USER_ALL_SUMMA, userAllSummaIntent);
         startActivity(intent);
     }
     @Override

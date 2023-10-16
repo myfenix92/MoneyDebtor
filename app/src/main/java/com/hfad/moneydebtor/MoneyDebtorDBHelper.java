@@ -38,8 +38,6 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
                     "CONSTRAINT USERS_FK \n" +
                     "    FOREIGN KEY (ID_USER) REFERENCES USERS (_id) ON DELETE CASCADE);");
         }
-        if (oldVersion == 2) {
-        }
     }
 
     public long insertUsers(String user_name, double all_summa) {
@@ -55,22 +53,17 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean insertUsersDetail(long id_user, long date_take, double summa, long date_give) {
+    public void insertUsersDetail(long id_user, long date_take, double summa, long date_give) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersDetailValues = new ContentValues();
         usersDetailValues.put("ID_USER", id_user);
         usersDetailValues.put("DATE_TAKE", date_take);
         usersDetailValues.put("SUMMA", summa);
         usersDetailValues.put("DATE_GIVE", date_give);
-        long res = db.insert("DETAIL_USERS", null, usersDetailValues);
-        if (res == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        db.insert("DETAIL_USERS", null, usersDetailValues);
     }
 
-    public Boolean updateUsers(int _id, String name_user)
+    public void updateUsers(int _id, String name_user)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersValues = new ContentValues();
@@ -78,19 +71,12 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
-            long result = db.update("USERS", usersValues, "_id = ? ",
+            db.update("USERS", usersValues, "_id = ? ",
                     new String[]{String.valueOf(_id)});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
         }
     }
 
-    public Boolean updateUsers(int _id, double all_summa)
+    public void updateUsers(int _id, double all_summa)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersValues = new ContentValues();
@@ -98,19 +84,12 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
-            long result = db.update("USERS", usersValues, "_id = ? ",
+            db.update("USERS", usersValues, "_id = ? ",
                     new String[]{String.valueOf(_id)});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
         }
     }
 
-    public Boolean updateUsersDetail(int _id, long date_take, double summa, long date_give)
+    public void updateUsersDetail(int _id, long date_take, double summa, long date_give)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues usersDetailValues = new ContentValues();
@@ -120,40 +99,25 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
-            long result = db.update("DETAIL_USERS", usersDetailValues, "_id = ?",
+            db.update("DETAIL_USERS", usersDetailValues, "_id = ?",
                     new String[]{String.valueOf(_id)});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
         }
     }
 
-    public Boolean deleteUser(int _id)
+    public void deleteUser(int _id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = ?",
                 new String[]{String.valueOf(_id)});
         if (cursor.getCount() > 0) {
-            long result = db.delete("USERS", "_id = ?",
-                    new String[]{String.valueOf(_id)});
-            if (result == -1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
+            db.delete("USERS", "_id = ?", new String[]{String.valueOf(_id)});
         }
     }
 
     public Cursor getDataUsers() {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM USERS", null);
-        return  cursor;
+        return cursor;
     }
 
     public int getUniqueName(String userName) {
@@ -169,6 +133,6 @@ public class MoneyDebtorDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM DETAIL_USERS WHERE ID_USER = ? " +
                         "ORDER BY DATE_TAKE DESC",
                 new String[]{String.valueOf(id)});
-        return  cursor;
+        return cursor;
     }
 }

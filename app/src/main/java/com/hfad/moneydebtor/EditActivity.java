@@ -1,13 +1,10 @@
 package com.hfad.moneydebtor;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
@@ -51,7 +47,6 @@ public class EditActivity extends Helper {
         textDateGive = findViewById(R.id.dateGiveText);
         textDateTake = findViewById(R.id.dateTakeText);
         summa = findViewById(R.id.edit_summa);
-
         String value = getIntent().getStringExtra("id_intent");
         setEditText(value);
 
@@ -221,7 +216,6 @@ public class EditActivity extends Helper {
     public void addNewRecord(View view) {
         nameUser = findViewById(R.id.edit_name);
         String nameText = nameUser.getText().toString().trim();
-        String nameUserIntent = getIntent().getStringExtra(DetailActivity.USER_NAME);
         String value = getIntent().getStringExtra("id_intent");
         if (Objects.equals(value, "MainActivity") && checkNames(nameUser, R.string.empty_name)) {
             return;
@@ -242,6 +236,7 @@ public class EditActivity extends Helper {
         double startSumma = getIntent().getDoubleExtra("summa", 0);
         boolean color = getIntent().getBooleanExtra("color", true);
         int idUser = getIntent().getIntExtra(DetailActivity.USER_ID, 0);
+        String nameUserIntent = getIntent().getStringExtra(DetailActivity.USER_NAME);
         double allSummaUser = getIntent().getDoubleExtra(DetailActivity.USER_ALL_SUMMA, 0);
         int idRecord = getIntent().getIntExtra("id_record", 0);
 

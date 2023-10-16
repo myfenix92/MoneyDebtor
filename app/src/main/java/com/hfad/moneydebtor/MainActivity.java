@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     MoneyDebtorDBHelper db;
     UsersAdapter usersAdapter;
     Cursor cursor;
-    private final String ID_ACTIVITY = "MainActivity";
     private boolean isView;
     SharedPreferences sPref;
 
@@ -156,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
             if (isView) {
                 menuItem.setIcon(R.drawable.grid);
                 isView = false;
-                viewMenu(isView);
+                viewMenu(false);
             } else {
                 menuItem.setIcon(R.drawable.list);
                 isView = true;
-                viewMenu(isView);
+                viewMenu(true);
             }
         } else {
             if (menuItem.getGroupId() == R.id.group_sort) {
@@ -194,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewUser(View view) {
         Intent intent = new Intent(this, EditActivity.class);
+        String ID_ACTIVITY = "MainActivity";
         intent.putExtra("id_intent", ID_ACTIVITY);
         startActivity(intent);
     }
@@ -214,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         }
+        cursor.close();
     }
 
     @Override

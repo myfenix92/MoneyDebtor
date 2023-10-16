@@ -9,6 +9,7 @@
     <string name="menu_change_name_alert">Изменить имя</string>
     <string name="empty_error">Поле не может быть пустым!</string>
     <string name="empty_db">Записей пока нет</string>
+    <string name="error_db">База данных недоступна</string>
     <string name="default_summa">0</string>
     <string name="date_take_text">Когда взяли</string>
     <string name="date_give_text">Когда отдали</string>
