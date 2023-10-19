@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         TextView allRedText = view.findViewById(R.id.all_summa_red);
         allRedText.setText(String.valueOf(allSummaRed));
         TextView allGreenText = view.findViewById(R.id.all_summa_green);
-        allGreenText.setText(String.valueOf(allSummaGreen));
+        allGreenText.setText(String.valueOf(allSummaGreen * -1));
     }
 
     public void countAllSummaDialog(View view) {

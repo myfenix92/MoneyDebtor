@@ -19,7 +19,7 @@
     <string name="zero_summa">The Amount field cannot be equal to zero!</string>
     <string name="unique_name">This name already exists!</string>
     <string name="text_take">Have taken</string>
-    <string name="text_give">Отдавать</string>
+    <string name="text_give">Give away</string>
     <string name="text_summa">Give away</string>
     <string name="text_on_switch">Have taken</string>
     <string name="text_off_switch">Gave it away</string>
