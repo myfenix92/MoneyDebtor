@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewUsers;
@@ -205,10 +206,12 @@ public class MainActivity extends AppCompatActivity {
                 allSummaGreen += usersDatasetList.get(i).getAll_summa();
             }
         }
+        String summaRed = String.format(Locale.US, "%.2f", allSummaRed);
+        String summaGreen = String.format(Locale.US, "%.2f", (allSummaGreen * -1));
         TextView allRedText = view.findViewById(R.id.all_summa_red);
-        allRedText.setText(String.valueOf(allSummaRed));
+        allRedText.setText(summaRed);
         TextView allGreenText = view.findViewById(R.id.all_summa_green);
-        allGreenText.setText(String.valueOf(allSummaGreen * -1));
+        allGreenText.setText(summaGreen);
     }
 
     public void countAllSummaDialog(View view) {
