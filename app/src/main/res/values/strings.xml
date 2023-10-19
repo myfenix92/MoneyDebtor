@@ -31,10 +31,13 @@
     <string name="menu_sort_name_desc">По имени (Я-А)</string>
     <string name="menu_sort_summa_asc">По сумме (по возрастанию)</string>
     <string name="menu_sort_summa_desc">По сумме (по убыванию)</string>
+    <string name="menu_all_summa">Общая сумма долга</string>
+    <string name="all_summa_red">Всего вам должны:</string>
+    <string name="all_summa_green">Ваш долг составляет:</string>
     <string name="menu_about_app">О приложении</string>
     <string name="red_icon_description">Красная рамка вокруг карточки - сумма, которую должны</string>
     <string name="green_icon_description">Зеленая рамка вокруг карточки - Вам отдали больше, чем взяли</string>
     <string name="blue_icon_description">Синяя рамка вокруг карточки - долга нет</string>
     <string name="about_title">Приложение для ведения должников</string>
-    <string name="about_version">Версия 1.0.0.</string>
+    <string name="about_version">Версия 1.0.1.</string>
 </resources>

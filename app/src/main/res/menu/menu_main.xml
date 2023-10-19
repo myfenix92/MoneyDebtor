@@ -40,8 +40,13 @@
         </menu>
     </item>
     <item
+        android:id="@+id/menu_all_summa"
+        android:title="@string/menu_all_summa"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/menu_about_app"
         android:title="@string/menu_about_app"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         app:showAsAction="never"/>
 </menu>
