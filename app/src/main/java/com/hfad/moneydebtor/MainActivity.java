@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             CoordinatorLayout coordinatorLayoutDetail = findViewById(R.id.coordinator_main);
             countAllSummaDialog(coordinatorLayoutDetail);
         }
+        menuItem.setChecked(true);
         saveText(menuItem.getItemId(), isView);
         return super.onOptionsItemSelected(menuItem);
     }
@@ -207,7 +208,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         String summaRed = String.format(Locale.US, "%.2f", allSummaRed);
-        String summaGreen = String.format(Locale.US, "%.2f", (allSummaGreen * -1));
+        String summaGreen = String.format(Locale.US, "%.2f", (allSummaGreen < 0
+                 ? allSummaGreen * -1 : allSummaGreen));
         TextView allRedText = view.findViewById(R.id.all_summa_red);
         allRedText.setText(summaRed);
         TextView allGreenText = view.findViewById(R.id.all_summa_green);

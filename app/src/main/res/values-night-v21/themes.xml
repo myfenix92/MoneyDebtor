@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.MoneyDebtor" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorOnBackground">@color/bg_night</item>
+        <item name="colorAccent">@color/main_color</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorOnSecondary">@color/bg_night_card</item>
+    </style>
+
+    <style name="EditTextColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="ColorIconMain">
+        <item name="android:fillColor">@color/white</item>
+    </style>
+
+    <style name="ShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+
+    </style>
+</resources>
