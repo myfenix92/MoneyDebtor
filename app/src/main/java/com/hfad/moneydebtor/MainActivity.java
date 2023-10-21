@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     UsersAdapter usersAdapter;
     Cursor cursor;
     private boolean isView;
+   // private boolean isCheckedSort = false;
+    private int savedIdMenu = 0;
+    private int savedIdSort = 0;
     SharedPreferences sPref;
 
     @Override
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         db = new MoneyDebtorDBHelper(this);
         recyclerViewUsers.setAdapter(usersAdapter);
         displayData();
-        loadText();
+        loadSettings();
     }
 
     @Override
@@ -72,22 +75,31 @@ public class MainActivity extends AppCompatActivity {
         if (!isView) {
             menu.findItem(R.id.view_choose).setIcon(R.drawable.grid);
         }
+        if (savedIdSort == 0) {
+            menu.findItem(R.id.sort_name_asc).setChecked(true);
+            sortMenu(R.id.sort_name_asc);
+        } else {
+            menu.findItem(savedIdSort).setChecked(true);
+            sortMenu(savedIdSort);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void saveText(int menuItem, boolean viewBool) {
+    private void saveSettings(int menuItem, boolean viewBool, int menuSortItem) {
         sPref = getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("saved_id_menu", menuItem);
         ed.putBoolean("save_isView", viewBool);
+        ed.putInt("save_id_sort", menuSortItem);
         ed.apply();
     }
 
 
-    private void loadText() {
+    private void loadSettings() {
         sPref = getSharedPreferences("MyPref", MODE_PRIVATE);
-        int savedIdMenu = sPref.getInt("saved_id_menu", 0);
+        savedIdMenu = sPref.getInt("saved_id_menu", 0);
         isView = sPref.getBoolean("save_isView", true);
+        savedIdSort = sPref.getInt("save_id_sort", 0);
         sortMenu(savedIdMenu);
     }
 
@@ -164,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             if (menuItem.getGroupId() == R.id.group_sort) {
+                menuItem.setChecked(true);
+                savedIdSort = menuItem.getItemId();
                 sortMenu(menuItem.getItemId());
             }
         }
@@ -175,8 +189,9 @@ public class MainActivity extends AppCompatActivity {
             CoordinatorLayout coordinatorLayoutDetail = findViewById(R.id.coordinator_main);
             countAllSummaDialog(coordinatorLayoutDetail);
         }
-        menuItem.setChecked(true);
-        saveText(menuItem.getItemId(), isView);
+
+//        Toast.makeText(this, String.valueOf(savedIdSort), Toast.LENGTH_SHORT).show();
+        saveSettings(menuItem.getItemId(), isView, savedIdSort);
         return super.onOptionsItemSelected(menuItem);
     }
 
